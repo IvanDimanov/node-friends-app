@@ -14,7 +14,7 @@
   "scripts": {
     "lint": "eslint .",
     "test": "echo No tests for now",
-    "build-readme": "marked --input=./Readme.md --output=readme.html",
+    "build-readme": "marked --input=./Readme.md --output=./readme.html",
     "prebuild": "npm run lint && npm run test && npm run build-readme",
     "build": "echo No building for now",
     "now-build": "npm run build",
