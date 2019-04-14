@@ -25,6 +25,7 @@ function fixCoveragePaths(filePath = DEFAULT_FILE_PATH, urlPrefix = DEFAULT_URL_
 }
 
 /* Check if this file is called for starting the app or called as additional module to already started app */
+/* istanbul ignore next: because this involves loading file via `require` or executing the file directly from the terminal */
 if (require.main === module) {
   fixCoveragePaths(argv.filePath, argv.urlPrefix);
 } else {
