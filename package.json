@@ -14,7 +14,7 @@
   "scripts": {
     "lint": "eslint .",
     "test": "echo No tests for now",
-    "build-readme": "marked --input=./Readme.md --output=./readme.html",
+    "build-readme": "mkdirp ./dist && marked --input=./Readme.md --output=./dist/readme.html",
     "prebuild": "npm run lint && npm run test && npm run build-readme",
     "build": "echo No building for now",
     "now-build": "npm run build",
@@ -33,6 +33,7 @@
     "eslint-config-google": "0.12.0",
     "husky": "1.3.1",
     "marked": "0.6.2",
+    "mkdirp": "0.5.1",
     "nodemon": "1.18.11"
   }
 }
