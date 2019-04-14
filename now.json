@@ -5,6 +5,9 @@
     { "src": "./package.json", "use": "@now/static-build" }
   ],
   "routes": [
+    { "src": "readme.html", "dest": "./readme.html" },
+    { "src": "/readme.html", "dest": "./readme.html" },
+    { "src": "./readme.html", "dest": "./readme.html" },
     { "src": ".*", "headers": { "Location": "./readme.html" } },
     { "src": "(.*)", "headers": { "Location": "./readme.html" } },
     { "src": "/(.*)", "headers": { "Location": "./readme.html" } }
