@@ -8,11 +8,11 @@ const server = http.createServer((request, response) => {
   response.end(`Hello World from ${request.url}\n`);
 });
 
-/* Check if the this file is called for starting the app or called for getting the `server` */
-if (require.main === module) {
+/* Check if the this file is called for starting the app or called for testing `server` */
+if (process.env.NODE_ENV === 'test') {
+  module.exports = server;
+} else {
   server.listen(port, () => {
     process.stdout.write(`Server listening on ${JSON.stringify(server.address())}\n`);
   });
-} else {
-  module.exports = server;
 }

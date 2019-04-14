@@ -15,7 +15,7 @@
     "lint": "eslint .",
     "test": "NODE_ENV=test mocha",
     "watch-test": "NODE_ENV=test mocha --watch",
-    "test-coverage": "NODE_ENV=test istanbul cover --report=html --report=text _mocha",
+    "test-coverage": "mkdirp ./coverage && NODE_ENV=test istanbul cover --report=html --report=text _mocha",
     "prebuild": "npm run lint && npm run test-coverage",
     "build": "mkdirp ./dist && marked --input=./Readme.md --output=./dist/readme.html",
     "now-build": "npm run build",
