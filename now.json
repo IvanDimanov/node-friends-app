@@ -7,8 +7,13 @@
   ],
   "routes": [
     { "src": "/api/(.*)", "dest": "/backend/index.js" },
+
     { "src": "/_/test-coverage", "dest": "/coverage/index.html" },
     { "src": "/_/test-coverage/(.*)", "dest": "/coverage/$1" },
+
+    { "src": "/_/documentation", "dest": "/documentation/index.html" },
+    { "src": "/_/documentation/(.*)", "dest": "/documentation/$1" },
+
     { "src": "/(.*)", "dest": "/readme.html" }
   ]
 }
