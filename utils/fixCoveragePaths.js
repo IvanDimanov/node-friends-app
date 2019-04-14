@@ -2,7 +2,7 @@ const fs = require('fs');
 const argv = require('yargs').argv;
 
 const DEFAULT_FILE_PATH = './dist/coverage/index.html';
-const DEFAULT_URL_PREFIX = '/test-coverage';
+const DEFAULT_URL_PREFIX = './test-coverage/';
 
 /**
  * Overwrites all relative links of the sent file with relative links.
@@ -15,9 +15,9 @@ const DEFAULT_URL_PREFIX = '/test-coverage';
 function fixCoveragePaths(filePath = DEFAULT_FILE_PATH, urlPrefix = DEFAULT_URL_PREFIX) {
   let html = fs.readFileSync(DEFAULT_FILE_PATH, 'utf-8');
 
-  html = html.replace(new RegExp('<link rel="stylesheet" href="', 'g'), `<link rel="stylesheet" href="./${urlPrefix}`);
-  html = html.replace(new RegExp('/"><a href="', 'g'), `/"><a href="./${urlPrefix}`);
-  html = html.replace(new RegExp('<script src="', 'g'), `<script src="./${urlPrefix}`);
+  html = html.replace(new RegExp('<link rel="stylesheet" href="', 'g'), `<link rel="stylesheet" href="${urlPrefix}`);
+  html = html.replace(new RegExp('/"><a href="', 'g'), `/"><a href="${urlPrefix}`);
+  html = html.replace(new RegExp('<script src="', 'g'), `<script src="${urlPrefix}`);
 
   fs.writeFileSync(DEFAULT_FILE_PATH, html);
 
