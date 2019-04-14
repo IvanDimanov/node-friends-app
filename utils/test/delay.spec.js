@@ -1,4 +1,4 @@
-const delay = require('../utils/delay');
+const delay = require('../delay');
 
 describe('delay()', () => {
   it('should resolve in 100[ms] by default, within +/- 20ms margin', async () => {

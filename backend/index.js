@@ -8,7 +8,7 @@ const server = http.createServer((request, response) => {
   response.end(`Hello World from ${request.url}\n`);
 });
 
-/* Check if the this file is called for starting the app or called for testing `server` */
+/* Check if this file is called for starting the app or called as additional module to already started app */
 if (process.env.NODE_ENV === 'test') {
   module.exports = server;
 } else {
