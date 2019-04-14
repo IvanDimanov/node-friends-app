@@ -1,0 +1,6 @@
+{
+  "package": "./package.json",
+  "reporter": "spec",
+  "spec": "./**/*.spec.js",
+  "require": "./test/loader.js"
+}
