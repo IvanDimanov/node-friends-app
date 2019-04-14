@@ -5,18 +5,6 @@
     { "src": "./package.json", "use": "@now/static-build" }
   ],
   "routes": [
-    { "src": "readme.html", "dest": "/readme.html" },
-    { "src": "/readme.html", "dest": "/readme.html" },
-    { "src": "/readme.html", "dest": "/readme.html" },
-    { "src": "/first-page", "dest": "/readme.html" },
-    { "src": "/2-page", "dest": "/readme.html" },
-
-    { "src": "/3-page", "dest": "/readme.html" },
-    { "src": "/4-page", "dest": "readme.html" },
-
-    { "src": ".*", "dest": "/readme.html" },
-    { "src": "(.*)", "dest": "/readme.html" },
-    { "src": "/.*", "dest": "/readme.html" },
     { "src": "/(.*)", "dest": "/readme.html" }
   ]
 }
