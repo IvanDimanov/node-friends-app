@@ -2,7 +2,7 @@ const fs = require('fs');
 const argv = require('yargs').argv;
 
 const DEFAULT_FILE_PATH = './dist/coverage/index.html';
-const DEFAULT_URL_PREFIX = './test-coverage/';
+const DEFAULT_URL_PREFIX = '/_/test-coverage/';
 
 /**
  * Overwrites all relative links of the sent file with relative links.
