@@ -23,7 +23,7 @@
     "prepush": "npm run lint"
   },
   "engines": {
-    "node": ">=10"
+    "node": ">=8"
   },
   "dependencies": {
     "babel-eslint": "10.0.1"
