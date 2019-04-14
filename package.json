@@ -1,0 +1,38 @@
+{
+  "name": "node-friends-app",
+  "version": "0.0.1",
+  "description": "Production ready Node API with docs, tests, and coverage",
+  "readme": "Readme.md",
+  "license": "MIT",
+  "authors": [
+    "Ivan Dimanov <node-friends-app@idimanov.com>"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IvanDimanov/node-friends-app.git"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "test": "echo No tests for now",
+    "build-readme": "marked --input=./Readme.md --output=readme.html",
+    "prebuild": "npm run lint && npm run test && npm run build-readme",
+    "build": "echo No building for now",
+    "now-build": "npm run build",
+    "deploy": "now --target production",
+    "local-development": "nodemon ./index.js",
+    "prepush": "npm run lint"
+  },
+  "engines": {
+    "node": ">=10"
+  },
+  "dependencies": {
+    "babel-eslint": "10.0.1"
+  },
+  "devDependencies": {
+    "eslint": "5.16.0",
+    "eslint-config-google": "0.12.0",
+    "husky": "1.3.1",
+    "marked": "0.6.2",
+    "nodemon": "1.18.11"
+  }
+}
