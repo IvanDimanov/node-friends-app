@@ -2,7 +2,7 @@
   "version": 2,
   "alias": "node-friends-app.now.sh",
   "builds": [
-    { "src": "./index.js", "use": "@now/node-server" }
+    { "src": "./index.js", "use": "@now/node-server" },
     { "src": "./package.json", "use": "@now/static-build" }
   ],
   "routes": [
