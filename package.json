@@ -27,7 +27,13 @@
   "engines": {
     "node": ">=8"
   },
-  "dependencies": {},
+  "dependencies": {
+    "pg": "7.9.0",
+    "pg-hstore": "2.3.2",
+    "sequelize": "5.5.0",
+    "sequelize-cli": "5.4.0",
+    "uuid": "3.3.2"
+  },
   "devDependencies": {
     "babel-eslint": "10.0.1",
     "chai": "4.2.0",
