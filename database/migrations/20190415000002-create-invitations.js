@@ -23,6 +23,10 @@ module.exports = {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
       },
+      groupId: {
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
+      },
       status: {
         type: Sequelize.STRING,
       },

@@ -9,8 +9,7 @@ async function jwtToUser(ctx, next) {
   ctx.state.userPermissions = [];
 
   if (!ctx.state.jwtdata || !ctx.state.jwtdata.userId) {
-    next();
-    return;
+    return next();
   }
 
   ctx.state.user = await ctx.postgres.Users
@@ -19,7 +18,7 @@ async function jwtToUser(ctx, next) {
           id: ctx.state.jwtdata.userId,
         },
       })
-      .then((response) => response.toJSON());
+      .then((response) => response && typeof response.toJSON === 'function' ? response.toJSON() : {});
 
   const permissionIds = await ctx.postgres.UserPermissions
       .findAll({
@@ -28,7 +27,7 @@ async function jwtToUser(ctx, next) {
           userId: ctx.state.jwtdata.userId,
         },
       })
-      .then((responses) => responses.map(({permissionId}) => permissionId));
+      .then((responses) => Array.isArray(responses) ? responses.map(({permissionId}) => permissionId) : []);
 
   ctx.state.userPermissions = await ctx.postgres.Permissions
       .findAll({
@@ -39,9 +38,9 @@ async function jwtToUser(ctx, next) {
           },
         },
       })
-      .then((responses) => responses.map(({key}) => key));
+      .then((responses) => Array.isArray(responses) ? responses.map(({key}) => key) : []);
 
-  next();
+  return next();
 }
 
 module.exports = jwtToUser;

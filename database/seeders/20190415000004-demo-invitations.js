@@ -1,6 +1,7 @@
 'use strict';
 
 const {users} = require('./20190415000001-demo-users');
+const {groups} = require('./20190415000003-demo-groups');
 
 const userJohn = users.find(({email}) => email === 'john@smith.com') || {};
 const userJane = users.find(({email}) => email === 'jane@smith.com') || {};
@@ -13,6 +14,7 @@ const invitations = [{
   description: 'Auto-generated and accepted when User created the group',
   fromUserId: userJohn.id,
   toUserId: userJohn.id,
+  groupId: groups[0].id,
   status: 'accepted',
   createdAt: new Date(),
   updatedAt: new Date(),
@@ -22,6 +24,7 @@ const invitations = [{
   description: 'Hunny, can you please join our family group',
   fromUserId: userJohn.id,
   toUserId: userJane.id,
+  groupId: groups[0].id,
   status: 'accepted',
   createdAt: new Date(),
   updatedAt: new Date(),
@@ -31,6 +34,7 @@ const invitations = [{
   description: 'Sunshine, can you please join our family group',
   fromUserId: userJohn.id,
   toUserId: userJudy.id,
+  groupId: groups[0].id,
   status: 'accepted',
   createdAt: new Date(),
   updatedAt: new Date(),
@@ -40,6 +44,7 @@ const invitations = [{
   description: 'Auto-generated and accepted when User created the group',
   fromUserId: userBob.id,
   toUserId: userBob.id,
+  groupId: groups[1].id,
   status: 'accepted',
   createdAt: new Date(),
   updatedAt: new Date(),

@@ -36,10 +36,24 @@ const permissions = [{
   createdAt: new Date(),
   updatedAt: new Date(),
 }, {
+  id: 'ee34f3c2-ff41-4bfb-b554-44dcc2bf41cd',
+  key: 'canReadOthersUser',
+  label: 'Read Others User',
+  description: 'Be able to read the user of others',
+  createdAt: new Date(),
+  updatedAt: new Date(),
+}, {
   id: '93a066f0-f4ee-45a9-a43e-a3ca19641310',
   key: 'canCreateGroups',
   label: 'Create Groups',
-  description: 'Bre able to create your own groups',
+  description: 'Be able to create your own groups',
+  createdAt: new Date(),
+  updatedAt: new Date(),
+}, {
+  id: '50516f25-6dc7-4bf8-bfba-33c49144fb7e',
+  key: 'canReadJoinedGroups',
+  label: 'Read joined Groups',
+  description: 'Be able to read a list of groups you joined',
   createdAt: new Date(),
   updatedAt: new Date(),
 }, {

@@ -30,6 +30,7 @@
     "node": ">=8"
   },
   "dependencies": {
+    "jsonwebtoken": "8.5.1",
     "koa": "2.7.0",
     "koa-bodyparser": "4.2.1",
     "koa-helmet": "4.1.0",

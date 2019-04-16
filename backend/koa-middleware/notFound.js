@@ -1,4 +1,4 @@
-const uuid = require('uuid/v4');
+const HttpError = require('./HttpError');
 
 /**
  * 
@@ -6,15 +6,12 @@ const uuid = require('uuid/v4');
  */
 function notFound(ctx) {
   if (ctx.status === 404) {
-    const errorId = uuid();
-    ctx.logger.debug('Not found', errorId);
-
-    ctx.status = 404;
-    ctx.body = {
-      errorId,
-      errorCode: 'NOT_FOUND',
-      errorMessage: `Page ${ctx.request.method} ${ctx.request.url} was not found`,
-    };
+    const error = new HttpError(
+        404,
+        'ROUTE_NOT_FOUND',
+        `Route ${ctx.request.method} ${ctx.request.url} was not found`
+    );
+    ctx.app.emit('error', error, ctx);
   }
 }
 
