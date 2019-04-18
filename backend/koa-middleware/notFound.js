@@ -1,8 +1,13 @@
 const HttpError = require('./HttpError');
 
 /**
- * 
- * @param {*} ctx 
+ * This middleware should be use as last in the koa app.
+ * If no other middlewares and APIs responded with any content then
+ * this middleware will triggers a 404/Not found error.
+ *
+ * @category middleware
+ *
+ * @param {Object} ctx Koa context
  */
 function notFound(ctx) {
   if (ctx.status === 404) {

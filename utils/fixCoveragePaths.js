@@ -7,8 +7,12 @@ const DEFAULT_URL_PREFIX = '/_/test-coverage/';
 /**
  * Overwrites all relative links of the sent file with relative links.
  *
- * @param {string} filePath The file path location that will be altered, defaults to `DEFAULT_FILE_PATH` from the same JS module.
- * @param {string} urlPrefix The path what will be added to all related links, defaults to `DEFAULT_URL_PREFIX` from the JS module
+ * @category utils
+ *
+ * @param {string} [filePath=DEFAULT_FILE_PATH] The file path location that will be altered,
+ *                                              defaults to `DEFAULT_FILE_PATH` from the same JS module.
+ * @param {string} [urlPrefix=DEFAULT_URL_PREFIX] The path what will be added to all related links,
+ *                                                defaults to `DEFAULT_URL_PREFIX` from the JS module
  *
  * @return {string} the HTML content that was saved in the file.
  */

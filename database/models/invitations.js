@@ -41,7 +41,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATE,
       defaultValue: null,
     },
-}, {});
+  }, {});
 
   return Invitations;
 };

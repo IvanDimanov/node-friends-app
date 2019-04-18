@@ -2,15 +2,28 @@ const logger = require('koa-logger');
 const jsonSafeStringify = require('../../utils/jsonSafeStringify');
 
 /**
- * 
+ * This middleware have 2 functions.
+ * 1) is to use `koa-logger` for tracking all app activities, and
+ * 2) is to provide the app with logging functions like `ctx.logger.info()`
+ *
+ * @category middleware
+ *
+ * @param {Object} ctx Koa context
+ * @param {Function} next Koa next middleware
+ *
+ * @return {object} `koa-logger` middleware
  */
 function customLogger(ctx, next) {
   let method = '';
   let url = '';
 
   /**
-   * 
-   * @param {*} prefix 
+   * Extends the Koa context with `ctx.logger.*` functions that have common logging format
+   *
+   * @category BackEndUtils
+   *
+   * @param {String} prefix
+   * @return {function}
    */
   function log(prefix = 'INFO') {
     return (message = '', data = {}) => {

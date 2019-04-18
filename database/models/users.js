@@ -34,5 +34,7 @@ module.exports = (sequelize, DataTypes) => {
     },
   }, {});
 
+  Users.associate = () => {};
+
   return Users;
 };
