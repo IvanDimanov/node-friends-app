@@ -54,4 +54,17 @@ describe('onError', () => {
 
     expect(ctx.body.errorCode).to.equal(code);
   });
+
+  it('should set a default `error` errorMessage to context body object', () => {
+    const error = new Error('Test error');
+    delete error.message;
+
+    const errorLogger = sinon.spy();
+    const ctx = {logger: {error: errorLogger}, request: {}};
+
+    onError(error, ctx);
+
+    expect(ctx.body.errorMessage).to.be.a('string');
+    expect(ctx.body.errorMessage.length).to.be.at.least(1);
+  });
 });

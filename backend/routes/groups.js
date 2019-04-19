@@ -89,7 +89,7 @@ router.post('/api/v1/groups',
 
       if (!name || typeof name !== 'string') {
         throw new HttpError(
-            403,
+            400,
             'INVALID_INPUT_NAME',
             `Name "${name}" is invalid`
         );
@@ -97,7 +97,7 @@ router.post('/api/v1/groups',
 
       if (!type || typeof type !== 'string') {
         throw new HttpError(
-            403,
+            400,
             'INVALID_INPUT_TYPE',
             `Type "${type}" is invalid`
         );
@@ -180,22 +180,6 @@ router.post('/api/v1/groups/:id/join',
           })
           .then((response) => response && typeof response.toJSON === 'function' ? response.toJSON() : response);
 
-      if (invitation && invitation.status === 'accepted') {
-        throw new HttpError(
-            400,
-            'ALREADY_JOINED',
-            `You are already in group "${groupId}"`
-        );
-      }
-
-      if (invitation && invitation.status === 'kicked') {
-        throw new HttpError(
-            403,
-            'KICKED_FROM_GROUP',
-            `You cannot join group "${groupId}" because you were kicked from it`
-        );
-      }
-
       if (!invitation) {
         throw new HttpError(
             403,
@@ -204,56 +188,71 @@ router.post('/api/v1/groups/:id/join',
         );
       }
 
-      if (invitation && (invitation.status === 'pending' || invitation.status === 'declined')) {
-        const group = await ctx.postgres.Groups
-            .findOne({
-              where: {
-                id: groupId,
-              },
-            })
-            .then((response) => response && typeof response.toJSON === 'function' ? response.toJSON() : response);
-
-        if (!group) {
-          throw new HttpError(
-              404,
-              'NO_GROUP',
-              `Group with id "${groupId}" does not exist`
-          );
-        }
-
-        if (group.createdByUserId === ctx.state.user.id) {
-          if (!ctx.state.userPermissions.includes('canJoinOwnGroups')) {
-            throw new HttpError(
-                403,
-                'NO_PERMISSION',
-                'You must have permission "canJoinOwnGroups" in order to join your own group'
-            );
-          }
-        } else {
-          if (!ctx.state.userPermissions.includes('canJoinOthersGroups')) {
-            throw new HttpError(
-                403,
-                'NO_PERMISSION',
-                'You must have permission "canJoinOthersGroups" in order to join groups created by others'
-            );
-          }
-        }
-
-        await ctx.postgres.Invitations
-            .update(
-                {status: 'accepted'},
-                {where: {id: invitation.id}}
-            );
-
-        ctx.body = group;
-        return;
+      if (invitation.status === 'accepted') {
+        throw new HttpError(
+            400,
+            'ALREADY_JOINED',
+            `You are already in group "${groupId}"`
+        );
       }
 
-      throw new HttpError(
-          500,
-          'UNKNOWN_INVITATION_CASE',
-          `We are unable to join you in group "${groupId}" at the moment`
-      );
+      if (invitation.status === 'kicked') {
+        throw new HttpError(
+            403,
+            'KICKED_FROM_GROUP',
+            `You cannot join group "${groupId}" because you were kicked from it`
+        );
+      }
+
+      if (invitation.status !== 'pending' && invitation.status !== 'declined') {
+        throw new HttpError(
+            500,
+            'UNKNOWN_INVITATION_CASE',
+            `Your invitation to group "${groupId}" is invalid`
+        );
+      }
+
+      const group = await ctx.postgres.Groups
+          .findOne({
+            where: {
+              id: groupId,
+            },
+          })
+          .then((response) => response && typeof response.toJSON === 'function' ? response.toJSON() : response);
+
+      if (!group) {
+        throw new HttpError(
+            404,
+            'NO_GROUP',
+            `Group with id "${groupId}" does not exist`
+        );
+      }
+
+      if (group.createdByUserId === ctx.state.user.id) {
+        if (!ctx.state.userPermissions.includes('canJoinOwnGroups')) {
+          throw new HttpError(
+              403,
+              'NO_PERMISSION',
+              'You must have permission "canJoinOwnGroups" in order to join your own group'
+          );
+        }
+      } else {
+        if (!ctx.state.userPermissions.includes('canJoinOthersGroups')) {
+          throw new HttpError(
+              403,
+              'NO_PERMISSION',
+              'You must have permission "canJoinOthersGroups" in order to join groups created by others'
+          );
+        }
+      }
+
+      await ctx.postgres.Invitations
+          .update(
+              {status: 'accepted'},
+              {where: {id: invitation.id}}
+          );
+
+      ctx.body = group;
     }
 );
 
@@ -294,14 +293,6 @@ router.post('/api/v1/groups/:id/leave',
             400,
             'NOT_IN_GROUP',
             `You are not in group "${groupId}"`
-        );
-      }
-
-      if (invitation.status === 'kicked') {
-        throw new HttpError(
-            403,
-            'KICKED_FROM_GROUP',
-            `You cannot leave group "${groupId}" because you were kicked from it`
         );
       }
 
@@ -436,7 +427,7 @@ router.post('/api/v1/groups/:groupId/invite/:userId',
                 {where: {id: invitation.id}}
             );
 
-        invitation.state = 'pending';
+        invitation.status = 'pending';
         ctx.body = invitation;
         return;
       }
@@ -562,7 +553,7 @@ router.post('/api/v1/groups/:groupId/kick/:userId',
               {where: {id: invitation.id}}
           );
 
-      invitation.state = 'kicked';
+      invitation.status = 'kicked';
       ctx.body = invitation;
     }
 );

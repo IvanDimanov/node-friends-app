@@ -5,7 +5,9 @@ const koaRouterRunner = require('./koaRouterRunner');
 const HttpError = require('../../koa-middleware/HttpError');
 const usersRouter = require('../users');
 
+const apiMethod = 'PUT';
 const apiPath = '/api/v1/users/:id';
+
 describe(apiPath, () => {
   let layer;
   let emit;
@@ -33,7 +35,7 @@ describe(apiPath, () => {
     UserPermissionsFindAll = sinon.stub().returns(Promise.resolve([{permissionId: 'test'}]));
     PermissionsFindAll = sinon.stub().returns(Promise.resolve(permissions));
 
-    layer = ((usersRouter || {}).stack || []).find(({path, methods}) => path === apiPath && methods.includes('PUT'));
+    layer = ((usersRouter || {}).stack || []).find(({path, methods}) => path === apiPath && methods.includes(apiMethod));
     emit = sinon.spy();
     usersUpdate = sinon.spy();
 

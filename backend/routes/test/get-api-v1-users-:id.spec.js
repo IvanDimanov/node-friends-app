@@ -4,7 +4,9 @@ const koaRouterRunner = require('./koaRouterRunner');
 const HttpError = require('../../koa-middleware/HttpError');
 const usersRouter = require('../users');
 
+const apiMethod = 'GET';
 const apiPath = '/api/v1/users/:id';
+
 describe(apiPath, () => {
   let layer;
   let emit;
@@ -19,7 +21,7 @@ describe(apiPath, () => {
   let ctx;
 
   beforeEach(() => {
-    layer = ((usersRouter || {}).stack || []).find(({path, methods}) => path === apiPath && methods.includes('GET'));
+    layer = ((usersRouter || {}).stack || []).find(({path, methods}) => path === apiPath && methods.includes(apiMethod));
     emit = sinon.spy();
 
     ctx = {
