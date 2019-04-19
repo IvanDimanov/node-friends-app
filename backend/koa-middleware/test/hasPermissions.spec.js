@@ -3,7 +3,7 @@ const hasPermissions = require('../hasPermissions');
 
 describe('hasPermissions()', () => {
   it('should return a {Function}', () => {
-    expect(hasPermissions()).to.be.an.instanceof(Function);
+    expect(hasPermissions()).to.be.a('function');
   });
 
   it('should call `next()` when no permissions are requested #1', async () => {

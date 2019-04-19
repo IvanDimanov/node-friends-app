@@ -3,7 +3,7 @@ const catchError = require('../catchError');
 
 describe('catchError()', () => {
   it('should return a {Function}', () => {
-    expect(catchError()).to.be.an.instanceof(Function);
+    expect(catchError()).to.be.a('function');
   });
 
   it('should call `next()`', async () => {

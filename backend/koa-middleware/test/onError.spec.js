@@ -3,7 +3,7 @@ const onError = require('../onError');
 
 describe('onError', () => {
   it('should be a {Function}', () => {
-    expect(onError).to.be.an.instanceof(Function);
+    expect(onError).to.be.a('function');
   });
 
   it('should log the sent `error` stack and ID', () => {
@@ -39,7 +39,7 @@ describe('onError', () => {
 
     onError(error, ctx);
 
-    expect(ctx.body).to.be.an.instanceof(Object);
+    expect(ctx.body).to.be.a('object');
   });
 
   it('should set the `error` code to context body object', () => {

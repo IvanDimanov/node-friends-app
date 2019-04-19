@@ -3,7 +3,7 @@ const notFound = require('../notFound');
 
 describe('notFound', () => {
   it('should be a {Function}', () => {
-    expect(notFound).to.be.an.instanceof(Function);
+    expect(notFound).to.be.a('function');
   });
 
   it('should not emit error to the app when context does not have status of `404`', () => {

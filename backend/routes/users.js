@@ -51,7 +51,7 @@ router.post('/api/v1/users/login',
         ctx.logger.info(`Unable to find user with email "${email}"`);
         throw new HttpError(
             401,
-            'MO_MATCH',
+            'NO_MATCH',
             'Email or password do not match'
         );
       }
@@ -65,7 +65,7 @@ router.post('/api/v1/users/login',
         ctx.logger.info(`Password mismatch for user ${user.id} "${email}"`);
         throw new HttpError(
             401,
-            'MO_MATCH',
+            'NO_MATCH',
             'Email or password do not match'
         );
       }

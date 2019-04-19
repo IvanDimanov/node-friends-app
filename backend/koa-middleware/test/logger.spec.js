@@ -59,7 +59,7 @@ describe('logger', () => {
 
     await logger(ctx, next);
 
-    expect(ctx.logger).to.be.an.instanceof(Object);
+    expect(ctx.logger).to.be.a('object');
   });
 
   it('should set `logger.debug()` to context', async () => {
@@ -74,7 +74,7 @@ describe('logger', () => {
 
     await logger(ctx, next);
 
-    expect(ctx.logger.debug).to.be.an.instanceof(Function);
+    expect(ctx.logger.debug).to.be.a('function');
   });
 
   it('should set `logger.info()` to context', async () => {
@@ -89,7 +89,7 @@ describe('logger', () => {
 
     await logger(ctx, next);
 
-    expect(ctx.logger.info).to.be.an.instanceof(Function);
+    expect(ctx.logger.info).to.be.a('function');
   });
 
   it('should set `logger.error()` to context', async () => {
@@ -104,7 +104,7 @@ describe('logger', () => {
 
     await logger(ctx, next);
 
-    expect(ctx.logger.error).to.be.an.instanceof(Function);
+    expect(ctx.logger.error).to.be.a('function');
   });
 
   describe('ctx.logger.error()', () => {

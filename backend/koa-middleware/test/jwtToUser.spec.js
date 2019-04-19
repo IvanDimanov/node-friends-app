@@ -3,7 +3,7 @@ const jwtToUser = require('../jwtToUser');
 
 describe('jwtToUser', () => {
   it('should be a {Function}', () => {
-    expect(jwtToUser).to.be.an.instanceof(Function);
+    expect(jwtToUser).to.be.a('function');
   });
 
   it('should not call DB when there is no JWT', async () => {

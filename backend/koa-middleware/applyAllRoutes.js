@@ -15,6 +15,11 @@ async function applyAllRoutes(app, routesFolderPath = DEFAULT_ROUTES_FOLDER) {
   const basePath = path.join(__dirname, routesFolderPath);
   fs.readdirSync(basePath)
       .forEach((itemPath) => {
+        /* Ignore test files and folders */
+        if (itemPath === 'test' || itemPath.includes('.spec.')) {
+          return;
+        }
+
         const router = require(path.join(basePath, itemPath));
         app
             .use(router.routes())

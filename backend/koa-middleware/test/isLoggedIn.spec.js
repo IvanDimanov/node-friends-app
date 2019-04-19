@@ -3,7 +3,7 @@ const isLoggedIn = require('../isLoggedIn');
 
 describe('isLoggedIn()', () => {
   it('should return a {Function}', () => {
-    expect(isLoggedIn()).to.be.an.instanceof(Function);
+    expect(isLoggedIn()).to.be.a('function');
   });
 
   it('should emit an error when no user is saved in context', async () => {
