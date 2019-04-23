@@ -2,6 +2,7 @@ const Koa = require('koa');
 const bodyParser = require('koa-bodyparser');
 const helmet = require('koa-helmet');
 const jwt = require('koa-jwt');
+const cors = require('@koa/cors');
 
 const catchError = require('./koa-middleware/catchError');
 const logger = require('./koa-middleware/logger');
@@ -25,6 +26,10 @@ app
     .use(bodyParser())
     .use(jwt({secret: process.env.JWT_SECRET || 'Pass@123', key: 'jwtdata', passthrough: true}))
     .use(jwtToUser);
+
+if (process.env.ALLOW_CORS) {
+  app.use(cors());
+}
 
 applyAllRoutes(app);
 

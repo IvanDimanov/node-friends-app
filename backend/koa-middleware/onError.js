@@ -1,6 +1,28 @@
 const uuid = require('uuid/v4');
 
 /**
+ * @swagger
+ * definition:
+ *   InternalServerError:
+ *     description:
+ *       HTTP status code 500.
+ *       Something got wrong in the flow and we have little idea what or why :)
+ *
+ *     properties:
+ *       errorId:
+ *         type: string
+ *         format: uuid
+ *
+ *       errorCode:
+ *         type: string
+ *         example: INTERNAL_ERROR
+ *
+ *       errorMessage:
+ *         type: string
+ *         example: Page GET /api/v1/users failed
+ */
+
+/**
  * This middleware catches all thrown code error and
  * tries to return a proper error JSON response to the API call.
  *

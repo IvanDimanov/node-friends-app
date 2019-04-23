@@ -1,0 +1,920 @@
+{
+  "info": {
+    "title": "node-friends-app",
+    "version": "0.5.0",
+    "description": "Production ready Node API with docs, tests, and coverage"
+  },
+  "host": "localhost:8000",
+  "basePath": "/",
+  "swagger": "2.0",
+  "paths": {
+    "/api/v1/groups/{id}": {
+      "get": {
+        "description": "Returns a Group with the requested `id`.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization header with JWT",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "format": "uuid",
+            "required": true,
+            "description": "The `id` of the Group we want to see"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The Group that has the requested `id`.",
+            "schema": {
+              "$ref": "#/definitions/Group"
+            }
+          },
+          "400": {
+            "description": "Invalid URI `id` parameter.",
+            "schema": {
+              "$ref": "#/definitions/UserInputError"
+            }
+          },
+          "401": {
+            "description": "User is not logged-in.",
+            "schema": {
+              "$ref": "#/definitions/AuthError"
+            }
+          },
+          "403": {
+            "description": "User is logged-in but has no permission to see this Group",
+            "schema": {
+              "$ref": "#/definitions/PermissionError"
+            }
+          },
+          "404": {
+            "description": "The group with the requested `id` is not found in the DB.",
+            "schema": {
+              "$ref": "#/definitions/NoFoundError"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/groups": {
+      "post": {
+        "description": "Uses the request body object to create a new Group.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization header with JWT",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "New group",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "required": true,
+                  "example": "Hobby Group 1"
+                },
+                "type": {
+                  "type": "string",
+                  "required": true,
+                  "example": "hobby"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The newly created Group.",
+            "schema": {
+              "$ref": "#/definitions/Group"
+            }
+          },
+          "400": {
+            "description": "Invalid data in the request body object.",
+            "schema": {
+              "$ref": "#/definitions/UserInputError"
+            }
+          },
+          "401": {
+            "description": "User is not logged-in.",
+            "schema": {
+              "$ref": "#/definitions/AuthError"
+            }
+          },
+          "403": {
+            "description": "User is logged-in but has no permission to create this Group",
+            "schema": {
+              "$ref": "#/definitions/PermissionError"
+            }
+          },
+          "500": {
+            "description": "Something went wrong with the creation process.",
+            "schema": {
+              "$ref": "#/definitions/InternalServerError"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/groups/{id}/join": {
+      "post": {
+        "description": "User wants to join the Group with requested URI `id`.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization header with JWT",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "format": "uuid",
+            "required": true,
+            "description": "The `id` of the Group we want to join in."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The Group object we just joined.",
+            "schema": {
+              "$ref": "#/definitions/Group"
+            }
+          },
+          "400": {
+            "description": "Invalid URI `id` parameter.",
+            "schema": {
+              "$ref": "#/definitions/UserInputError"
+            }
+          },
+          "401": {
+            "description": "User is not logged-in.",
+            "schema": {
+              "$ref": "#/definitions/AuthError"
+            }
+          },
+          "403": {
+            "description": "User is logged-in but has no permission to join this Group",
+            "schema": {
+              "$ref": "#/definitions/PermissionError"
+            }
+          },
+          "500": {
+            "description": "Something went wrong with the updating the User invitation.",
+            "schema": {
+              "$ref": "#/definitions/InternalServerError"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/groups/{id}/leave": {
+      "post": {
+        "description": "User wants to leave the Group with requested URI `id`.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization header with JWT",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "format": "uuid",
+            "required": true,
+            "description": "The `id` of the Group we want to leave from."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The Group object we just left.",
+            "schema": {
+              "$ref": "#/definitions/Group"
+            }
+          },
+          "400": {
+            "description": "Invalid URI `id` parameter.",
+            "schema": {
+              "$ref": "#/definitions/UserInputError"
+            }
+          },
+          "401": {
+            "description": "User is not logged-in.",
+            "schema": {
+              "$ref": "#/definitions/AuthError"
+            }
+          },
+          "403": {
+            "description": "User is logged-in but has no permission to join this Group",
+            "schema": {
+              "$ref": "#/definitions/PermissionError"
+            }
+          },
+          "404": {
+            "description": "The Group with requested `id` is not found in the DB.",
+            "schema": {
+              "$ref": "#/definitions/NoFoundError"
+            }
+          },
+          "500": {
+            "description": "Something went wrong with the updating the User invitation.",
+            "schema": {
+              "$ref": "#/definitions/InternalServerError"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/groups/{groupId}/invite/{userId}": {
+      "post": {
+        "description": "User wants to invite another User into Group with requested URI `id`.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization header with JWT",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "groupId",
+            "type": "string",
+            "format": "uuid",
+            "required": true,
+            "description": "The `id` of the Group we want to invite another user into."
+          },
+          {
+            "in": "path",
+            "name": "userId",
+            "type": "string",
+            "format": "uuid",
+            "required": true,
+            "description": "The `id` of the User we want to invite to a group."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The group Invitation object we just sent to another user.",
+            "schema": {
+              "$ref": "#/definitions/Invitation"
+            }
+          },
+          "400": {
+            "description": "Invalid URI `id` parameter.",
+            "schema": {
+              "$ref": "#/definitions/UserInputError"
+            }
+          },
+          "401": {
+            "description": "User is not logged-in.",
+            "schema": {
+              "$ref": "#/definitions/AuthError"
+            }
+          },
+          "403": {
+            "description": "User is logged-in but has no permission to invite another user into this Group.",
+            "schema": {
+              "$ref": "#/definitions/PermissionError"
+            }
+          },
+          "404": {
+            "description": "The Group with requested `id` is not found in the DB.",
+            "schema": {
+              "$ref": "#/definitions/NoFoundError"
+            }
+          },
+          "500": {
+            "description": "Something went wrong with the updating the User invitation.",
+            "schema": {
+              "$ref": "#/definitions/InternalServerError"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/groups/{groupId}/kick/{userId}": {
+      "post": {
+        "description": "User wants to kick another User from Group with requested URI `id`.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization header with JWT",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "groupId",
+            "type": "string",
+            "format": "uuid",
+            "required": true,
+            "description": "The `id` of the Group we want to kick another user from."
+          },
+          {
+            "in": "path",
+            "name": "userId",
+            "type": "string",
+            "format": "uuid",
+            "required": true,
+            "description": "The `id` of the User we want to kick from a group."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The group Invitation object we just declined by kicking the another user.",
+            "schema": {
+              "$ref": "#/definitions/Invitation"
+            }
+          },
+          "400": {
+            "description": "Invalid URI `id` parameter.",
+            "schema": {
+              "$ref": "#/definitions/UserInputError"
+            }
+          },
+          "401": {
+            "description": "User is not logged-in.",
+            "schema": {
+              "$ref": "#/definitions/AuthError"
+            }
+          },
+          "403": {
+            "description": "User is logged-in but has no permission to kick another user from this Group.",
+            "schema": {
+              "$ref": "#/definitions/PermissionError"
+            }
+          },
+          "404": {
+            "description": "The Group with requested `id` is not found in the DB.",
+            "schema": {
+              "$ref": "#/definitions/NoFoundError"
+            }
+          },
+          "500": {
+            "description": "Something went wrong with the updating the User invitation.",
+            "schema": {
+              "$ref": "#/definitions/InternalServerError"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/login": {
+      "post": {
+        "description": "Will return a time-limited JWT if sent user credentials are valid.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "login",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "format": "email",
+                  "required": true,
+                  "example": "john@smith.com"
+                },
+                "password": {
+                  "type": "string",
+                  "required": true,
+                  "example": "Pass@123"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Your credentials are valid and JWT is been generated and returned.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "JWT": {
+                  "type": "string",
+                  "example": "Bearer eyJhbGciOi...rWR8FC62tYb0qA"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or invalid email or password.",
+            "schema": {
+              "$ref": "#/definitions/UserInputError"
+            }
+          },
+          "401": {
+            "description": "Email/password pair do not match.",
+            "schema": {
+              "$ref": "#/definitions/AuthError"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/{id}": {
+      "get": {
+        "description": "Returns a User that has the requested `id`.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization header with JWT",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "format": "uuid",
+            "required": true,
+            "description": "The `id` of the User we want to be returned"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The User object that has the requested `id`.",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "Invalid URI `id` parameter.",
+            "schema": {
+              "$ref": "#/definitions/UserInputError"
+            }
+          },
+          "401": {
+            "description": "User is not logged-in.",
+            "schema": {
+              "$ref": "#/definitions/AuthError"
+            }
+          },
+          "403": {
+            "description": "User is logged-in but has no permission to see the requested User.",
+            "schema": {
+              "$ref": "#/definitions/PermissionError"
+            }
+          },
+          "404": {
+            "description": "The requested User is not found in the DB.",
+            "schema": {
+              "$ref": "#/definitions/NoFoundError"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "Updating User that has the requested `id` and then we'll return his updated info.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization header with JWT",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "format": "uuid",
+            "required": true,
+            "description": "The `id` of the User we want to update"
+          },
+          {
+            "in": "body",
+            "name": "update",
+            "type": "object",
+            "description": "Holds only the info that we want to update. For example, if we want to update only the User firstName, then we'll send `{\"firstName\":\"New first name\"}`",
+            "example": {
+              "firstName": "Johnny"
+            },
+            "parameters": {
+              "firstName": {
+                "type": "string"
+              },
+              "lastName": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string",
+                "format": "email"
+              },
+              "password": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The User object that has the requested `id`.",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "Invalid URI `id` parameter or invalid request body.",
+            "schema": {
+              "$ref": "#/definitions/UserInputError"
+            }
+          },
+          "401": {
+            "description": "User is not logged-in.",
+            "schema": {
+              "$ref": "#/definitions/AuthError"
+            }
+          },
+          "403": {
+            "description": "User is logged-in but has no permission to update the requested User.",
+            "schema": {
+              "$ref": "#/definitions/PermissionError"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/{id}/invitations": {
+      "get": {
+        "description": "Returns a list of all Invitations that User with the requested `id` have. This list will include Invitations that the user is accepted, kicked, or pending to accept.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization header with JWT",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "format": "uuid",
+            "required": true,
+            "description": "The `id` of the User we want to see all Invitations"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of all Invitations for User that has the requested `id`.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Invitation"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid URI `id` parameter.",
+            "schema": {
+              "$ref": "#/definitions/UserInputError"
+            }
+          },
+          "401": {
+            "description": "User is not logged-in.",
+            "schema": {
+              "$ref": "#/definitions/AuthError"
+            }
+          },
+          "403": {
+            "description": "User is logged-in but has no permission to see the Invitations",
+            "schema": {
+              "$ref": "#/definitions/PermissionError"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "PermissionError": {
+      "description": "HTTP status code 403. User has no permission to access the requested resource. Example cause might be when user wants to receive group data but he is not part of the group.",
+      "properties": {
+        "errorId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "errorCode": {
+          "type": "string",
+          "example": "NO_PERMISSION"
+        },
+        "errorMessage": {
+          "type": "string",
+          "example": "You must have permission \"canReadJoinedGroups\" in order to access this API"
+        }
+      }
+    },
+    "UserInputError": {
+      "description": "HTTP status code 400. User sent invalid data like URI id.",
+      "properties": {
+        "errorId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "errorCode": {
+          "type": "string",
+          "example": "INVALID_INPUT_EMAIL"
+        },
+        "errorMessage": {
+          "type": "string",
+          "example": "test@test. is invalid email"
+        }
+      }
+    },
+    "AuthError": {
+      "description": "HTTP status code 401. User is not authenticated. Mainly returned on missing or expired JWT.",
+      "properties": {
+        "errorId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "errorCode": {
+          "type": "string",
+          "example": "NO_AUTH"
+        },
+        "errorMessage": {
+          "type": "string",
+          "example": "You must login with a valid JWT"
+        }
+      }
+    },
+    "NoFoundError": {
+      "description": "HTTP status code 404. A requested resource is not found. Might be cause by missing API or missing DB record.",
+      "properties": {
+        "errorId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "errorCode": {
+          "type": "string",
+          "example": "ROUTE_NOT_FOUND"
+        },
+        "errorMessage": {
+          "type": "string",
+          "example": "Route GET /api/v1/users was not found"
+        }
+      }
+    },
+    "InternalServerError": {
+      "description": "HTTP status code 500. Something got wrong in the flow and we have little idea what or why :)",
+      "properties": {
+        "errorId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "errorCode": {
+          "type": "string",
+          "example": "INTERNAL_ERROR"
+        },
+        "errorMessage": {
+          "type": "string",
+          "example": "Page GET /api/v1/users failed"
+        }
+      }
+    },
+    "Group": {
+      "description": "List of users.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "createdByUserId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Who was the user to created this group. He might no longer be in the group."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "deletedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "Invitation": {
+      "description": "Shows a relation between a User and a Group. An invitation can in general be - accepted, pending, kicked, or not existing.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "type": {
+          "type": "string",
+          "description": "Internally used as to distinct invitations that were sent from user-to-user and invitations that were sent from system-to-user.",
+          "example": "creator, request"
+        },
+        "description": {
+          "type": "string",
+          "description": "A short message sent to welcome the invited user.",
+          "example": "Hey Bob - can you join our hobby group"
+        },
+        "fromUserId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Who sent the invitation."
+        },
+        "toUserId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Who is invited."
+        },
+        "groupId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "status": {
+          "type": "string",
+          "format": "uuid",
+          "description": "What is the relation between `toUserId` and `groupId`.",
+          "example": "accepted, pending, kicked"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "deletedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "Permission": {
+      "description": "String flags that will show which user can do what.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "key": {
+          "type": "string",
+          "description": "Internally used reference for the permission",
+          "example": "canCreateGroups, canInviteOthersToOwnGroups"
+        },
+        "label": {
+          "type": "string",
+          "description": "A UI short explanation of the permission",
+          "example": "Create Groups"
+        },
+        "description": {
+          "type": "string",
+          "description": "A UI long explanation of the permission",
+          "example": "Be able to create your own groups"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "deletedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "UserPermission": {
+      "description": "This model is 1-to-1 map that shows which Permission is been granted to which User.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "userId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "The user that is granted a permission"
+        },
+        "permissionId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "The permission that is granted to the user"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "deletedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "User": {
+      "description": "The main entity that creates and executes actions. Such actions can be creating a Group, inviting other User to a Group, login.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "firstName": {
+          "type": "string",
+          "example": "John"
+        },
+        "lastName": {
+          "type": "string",
+          "example": "Smith"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "example": "john@smith.com"
+        },
+        "hashedPassword": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "deletedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  },
+  "responses": {},
+  "parameters": {},
+  "securityDefinitions": {},
+  "tags": []
+}

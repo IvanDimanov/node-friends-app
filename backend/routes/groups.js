@@ -8,6 +8,55 @@ const {isValidUuidV4} = require('../../utils/isValidUuidV4');
 
 const router = new Router();
 
+/**
+ * @swagger
+ * /api/v1/groups/{id}:
+ *   get:
+ *     description: Returns a Group with the requested `id`.
+ *
+ *     produces:
+ *       - application/json
+ *
+ *     parameters:
+ *       - name: Authorization
+ *         in: header
+ *         description: Authorization header with JWT
+ *         required: true
+ *         type: string
+ *
+ *       - in: path
+ *         name: id
+ *         type: string
+ *         format: uuid
+ *         required: true
+ *         description: The `id` of the Group we want to see
+ *
+ *     responses:
+ *       200:
+ *         description: The Group that has the requested `id`.
+ *         schema:
+ *           $ref: '#/definitions/Group'
+ *
+ *       400:
+ *         description: Invalid URI `id` parameter.
+ *         schema:
+ *           $ref: '#/definitions/UserInputError'
+ *
+ *       401:
+ *         description: User is not logged-in.
+ *         schema:
+ *           $ref: '#/definitions/AuthError'
+ *
+ *       403:
+ *         description: User is logged-in but has no permission to see this Group
+ *         schema:
+ *           $ref: '#/definitions/PermissionError'
+ *
+ *       404:
+ *         description: The group with the requested `id` is not found in the DB.
+ *         schema:
+ *           $ref: '#/definitions/NoFoundError'
+ */
 router.get('/api/v1/groups/:id',
     isLoggedIn(),
     async (ctx) => {
@@ -66,6 +115,63 @@ router.get('/api/v1/groups/:id',
     }
 );
 
+/**
+ * @swagger
+ * /api/v1/groups:
+ *   post:
+ *     description: Uses the request body object to create a new Group.
+ *
+ *     produces:
+ *       - application/json
+ *
+ *     parameters:
+ *       - name: Authorization
+ *         in: header
+ *         description: Authorization header with JWT
+ *         required: true
+ *         type: string
+ *
+ *       - in: body
+ *         name: New group
+ *         schema:
+ *           type: object
+ *           properties:
+ *             name:
+ *               type: string
+ *               required: true
+ *               example: Hobby Group 1
+ *
+ *             type:
+ *               type: string
+ *               required: true
+ *               example: hobby
+ *
+ *     responses:
+ *       200:
+ *         description: The newly created Group.
+ *         schema:
+ *           $ref: '#/definitions/Group'
+ *
+ *       400:
+ *         description: Invalid data in the request body object.
+ *         schema:
+ *           $ref: '#/definitions/UserInputError'
+ *
+ *       401:
+ *         description: User is not logged-in.
+ *         schema:
+ *           $ref: '#/definitions/AuthError'
+ *
+ *       403:
+ *         description: User is logged-in but has no permission to create this Group
+ *         schema:
+ *           $ref: '#/definitions/PermissionError'
+ *
+ *       500:
+ *         description: Something went wrong with the creation process.
+ *         schema:
+ *           $ref: '#/definitions/InternalServerError'
+ */
 router.post('/api/v1/groups',
     isLoggedIn(),
     async (ctx) => {
@@ -148,6 +254,55 @@ router.post('/api/v1/groups',
     }
 );
 
+/**
+ * @swagger
+ * /api/v1/groups/{id}/join:
+ *   post:
+ *     description: User wants to join the Group with requested URI `id`.
+ *
+ *     produces:
+ *       - application/json
+ *
+ *     parameters:
+ *       - name: Authorization
+ *         in: header
+ *         description: Authorization header with JWT
+ *         required: true
+ *         type: string
+ *
+ *       - in: path
+ *         name: id
+ *         type: string
+ *         format: uuid
+ *         required: true
+ *         description: The `id` of the Group we want to join in.
+ *
+ *     responses:
+ *       200:
+ *         description: The Group object we just joined.
+ *         schema:
+ *           $ref: '#/definitions/Group'
+ *
+ *       400:
+ *         description: Invalid URI `id` parameter.
+ *         schema:
+ *           $ref: '#/definitions/UserInputError'
+ *
+ *       401:
+ *         description: User is not logged-in.
+ *         schema:
+ *           $ref: '#/definitions/AuthError'
+ *
+ *       403:
+ *         description: User is logged-in but has no permission to join this Group
+ *         schema:
+ *           $ref: '#/definitions/PermissionError'
+ *
+ *       500:
+ *         description: Something went wrong with the updating the User invitation.
+ *         schema:
+ *           $ref: '#/definitions/InternalServerError'
+ */
 router.post('/api/v1/groups/:id/join',
     isLoggedIn(),
     async (ctx) => {
@@ -256,6 +411,60 @@ router.post('/api/v1/groups/:id/join',
     }
 );
 
+/**
+ * @swagger
+ * /api/v1/groups/{id}/leave:
+ *   post:
+ *     description: User wants to leave the Group with requested URI `id`.
+ *
+ *     produces:
+ *       - application/json
+ *
+ *     parameters:
+ *       - name: Authorization
+ *         in: header
+ *         description: Authorization header with JWT
+ *         required: true
+ *         type: string
+ *
+ *       - in: path
+ *         name: id
+ *         type: string
+ *         format: uuid
+ *         required: true
+ *         description: The `id` of the Group we want to leave from.
+ *
+ *     responses:
+ *       200:
+ *         description: The Group object we just left.
+ *         schema:
+ *           $ref: '#/definitions/Group'
+ *
+ *       400:
+ *         description: Invalid URI `id` parameter.
+ *         schema:
+ *           $ref: '#/definitions/UserInputError'
+ *
+ *       401:
+ *         description: User is not logged-in.
+ *         schema:
+ *           $ref: '#/definitions/AuthError'
+ *
+ *       403:
+ *         description: User is logged-in but has no permission to join this Group
+ *         schema:
+ *           $ref: '#/definitions/PermissionError'
+ *
+ *       404:
+ *         description: The Group with requested `id` is not found in the DB.
+ *         schema:
+ *           $ref: '#/definitions/NoFoundError'
+ *
+ *       500:
+ *         description: Something went wrong with the updating the User invitation.
+ *         schema:
+ *           $ref: '#/definitions/InternalServerError'
+ */
 router.post('/api/v1/groups/:id/leave',
     isLoggedIn(),
     async (ctx) => {
@@ -340,6 +549,67 @@ router.post('/api/v1/groups/:id/leave',
     }
 );
 
+/**
+ * @swagger
+ * /api/v1/groups/{groupId}/invite/{userId}:
+ *   post:
+ *     description: User wants to invite another User into Group with requested URI `id`.
+ *
+ *     produces:
+ *       - application/json
+ *
+ *     parameters:
+ *       - name: Authorization
+ *         in: header
+ *         description: Authorization header with JWT
+ *         required: true
+ *         type: string
+ *
+ *       - in: path
+ *         name: groupId
+ *         type: string
+ *         format: uuid
+ *         required: true
+ *         description: The `id` of the Group we want to invite another user into.
+ *
+ *       - in: path
+ *         name: userId
+ *         type: string
+ *         format: uuid
+ *         required: true
+ *         description: The `id` of the User we want to invite to a group.
+ *
+ *     responses:
+ *       200:
+ *         description: The group Invitation object we just sent to another user.
+ *         schema:
+ *           $ref: '#/definitions/Invitation'
+ *
+ *       400:
+ *         description: Invalid URI `id` parameter.
+ *         schema:
+ *           $ref: '#/definitions/UserInputError'
+ *
+ *       401:
+ *         description: User is not logged-in.
+ *         schema:
+ *           $ref: '#/definitions/AuthError'
+ *
+ *       403:
+ *         description: User is logged-in but has no permission to invite another user into this Group.
+ *         schema:
+ *           $ref: '#/definitions/PermissionError'
+ *
+ *       404:
+ *         description: The Group with requested `id` is not found in the DB.
+ *         schema:
+ *           $ref: '#/definitions/NoFoundError'
+ *
+ *       500:
+ *         description: Something went wrong with the updating the User invitation.
+ *         schema:
+ *           $ref: '#/definitions/InternalServerError'
+ */
 router.post('/api/v1/groups/:groupId/invite/:userId',
     isLoggedIn(),
     async (ctx) => {
@@ -459,6 +729,67 @@ router.post('/api/v1/groups/:groupId/invite/:userId',
     }
 );
 
+/**
+ * @swagger
+ * /api/v1/groups/{groupId}/kick/{userId}:
+ *   post:
+ *     description: User wants to kick another User from Group with requested URI `id`.
+ *
+ *     produces:
+ *       - application/json
+ *
+ *     parameters:
+ *       - name: Authorization
+ *         in: header
+ *         description: Authorization header with JWT
+ *         required: true
+ *         type: string
+ *
+ *       - in: path
+ *         name: groupId
+ *         type: string
+ *         format: uuid
+ *         required: true
+ *         description: The `id` of the Group we want to kick another user from.
+ *
+ *       - in: path
+ *         name: userId
+ *         type: string
+ *         format: uuid
+ *         required: true
+ *         description: The `id` of the User we want to kick from a group.
+ *
+ *     responses:
+ *       200:
+ *         description: The group Invitation object we just declined by kicking the another user.
+ *         schema:
+ *           $ref: '#/definitions/Invitation'
+ *
+ *       400:
+ *         description: Invalid URI `id` parameter.
+ *         schema:
+ *           $ref: '#/definitions/UserInputError'
+ *
+ *       401:
+ *         description: User is not logged-in.
+ *         schema:
+ *           $ref: '#/definitions/AuthError'
+ *
+ *       403:
+ *         description: User is logged-in but has no permission to kick another user from this Group.
+ *         schema:
+ *           $ref: '#/definitions/PermissionError'
+ *
+ *       404:
+ *         description: The Group with requested `id` is not found in the DB.
+ *         schema:
+ *           $ref: '#/definitions/NoFoundError'
+ *
+ *       500:
+ *         description: Something went wrong with the updating the User invitation.
+ *         schema:
+ *           $ref: '#/definitions/InternalServerError'
+ */
 router.post('/api/v1/groups/:groupId/kick/:userId',
     isLoggedIn(),
     async (ctx) => {

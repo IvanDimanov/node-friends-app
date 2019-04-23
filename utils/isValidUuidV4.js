@@ -1,5 +1,5 @@
 
-const REG_EX_UUID_V4 = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
+const REG_EX_UUID_V4 = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3,4}-[89AB][0-9A-F]{3,4}-[0-9A-F]{12}$/i;
 
 /**
  * Use some basic rules to determine if input is valid {string} UUID v4

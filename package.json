@@ -1,6 +1,6 @@
 {
   "name": "node-friends-app",
-  "version": "0.0.1",
+  "version": "0.5.0",
   "description": "Production ready Node API with docs, tests, and coverage",
   "readme": "Readme.md",
   "license": "MIT",
@@ -17,19 +17,22 @@
     "watch-test": "NODE_ENV=test mocha --watch",
     "test-coverage": "NODE_ENV=test istanbul cover --report=html --report=text --dir=./dist/coverage _mocha",
     "generate-documentation": "jsdoc --configure jsdoc.json",
+    "generate-swagger": "swagger-jsdoc --definition ./swaggerDef.js --output ./swagger-ui-dist/swagger.spec.json && node ./utils/createSwaggerIndex && copyfiles --up 1 ./swagger-ui-dist/* ./dist/swagger",
     "seed-database": "cd ./database && npx sequelize db:seed:all && cd ../",
     "build-database": "cd ./database && npx sequelize db:migrate && cd ../",
-    "prebuild": "rimraf ./dist && mkdirp ./dist && npm run lint && npm run test-coverage && npm run generate-documentation",
+    "prebuild": "rimraf ./dist && mkdirp ./dist && npm run lint && npm run test-coverage && npm run generate-documentation && npm run generate-swagger",
     "build": "npm run build-database && marked --input=./Readme.md --output=./dist/readme.html",
     "now-build": "npm run build && node ./utils/fixCoveragePaths",
     "deploy": "now --target production",
     "local-development": "nodemon ./backend",
+    "local-swagger": "mkdirp ./dist && npm run generate-swagger && http-server ./dist/swagger",
     "prepush": "npm run lint"
   },
   "engines": {
     "node": ">=8"
   },
   "dependencies": {
+    "@koa/cors": "2.2.3",
     "jsonwebtoken": "8.5.1",
     "koa": "2.7.0",
     "koa-bodyparser": "4.2.1",
@@ -41,7 +44,6 @@
     "pg-hstore": "2.3.2",
     "sequelize": "5.5.0",
     "sequelize-cli": "5.4.0",
-    "swagger-jsdoc": "3.2.9",
     "uuid": "3.3.2"
   },
   "devDependencies": {
@@ -49,8 +51,10 @@
     "better-docs": "1.1.6",
     "chai": "4.2.0",
     "chai-string": "1.5.0",
+    "copyfiles": "2.1.0",
     "eslint": "5.16.0",
     "eslint-config-google": "0.12.0",
+    "http-server": "0.11.1",
     "husky": "1.3.1",
     "istanbul": "1.1.0-alpha.1",
     "jsdoc": "3.5.5",
@@ -60,6 +64,8 @@
     "nodemon": "1.18.11",
     "rimraf": "2.6.3",
     "sinon": "7.3.1",
+    "swagger-jsdoc": "3.2.9",
+    "swagger-ui-dist": "3.22.1",
     "yargs": "13.2.2"
   }
 }

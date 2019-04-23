@@ -11,6 +11,55 @@ const {isValidPassword} = require('../../utils/isValidPassword');
 
 const router = new Router();
 
+/**
+ * @swagger
+ * /api/v1/users/login:
+ *   post:
+ *     description: Will return a time-limited JWT if sent user credentials are valid.
+ *
+ *     produces:
+ *       - application/json
+ *
+ *     consumes:
+ *       - application/json
+ *
+ *     parameters:
+ *       - in: body
+ *         name: login
+ *         schema:
+ *           type: object
+ *           properties:
+ *             email:
+ *               type: string
+ *               format: email
+ *               required: true
+ *               example: john@smith.com
+ *
+ *             password:
+ *               type: string
+ *               required: true
+ *               example: Pass@123
+ *
+ *     responses:
+ *       200:
+ *         description: Your credentials are valid and JWT is been generated and returned.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             JWT:
+ *               type: string
+ *               example: Bearer eyJhbGciOi...rWR8FC62tYb0qA
+ *
+ *       400:
+ *         description: Missing or invalid email or password.
+ *         schema:
+ *           $ref: '#/definitions/UserInputError'
+ *
+ *       401:
+ *         description: Email/password pair do not match.
+ *         schema:
+ *           $ref: '#/definitions/AuthError'
+ */
 router.post('/api/v1/users/login',
     async (ctx) => {
       if (!ctx.request.body) {
@@ -79,6 +128,55 @@ router.post('/api/v1/users/login',
     }
 );
 
+/**
+ * @swagger
+ * /api/v1/users/{id}:
+ *   get:
+ *     description: Returns a User that has the requested `id`.
+ *
+ *     produces:
+ *       - application/json
+ *
+ *     parameters:
+ *       - name: Authorization
+ *         in: header
+ *         description: Authorization header with JWT
+ *         required: true
+ *         type: string
+ *
+ *       - in: path
+ *         name: id
+ *         type: string
+ *         format: uuid
+ *         required: true
+ *         description: The `id` of the User we want to be returned
+ *
+ *     responses:
+ *       200:
+ *         description: The User object that has the requested `id`.
+ *         schema:
+ *           $ref: '#/definitions/User'
+ *
+ *       400:
+ *         description: Invalid URI `id` parameter.
+ *         schema:
+ *           $ref: '#/definitions/UserInputError'
+ *
+ *       401:
+ *         description: User is not logged-in.
+ *         schema:
+ *           $ref: '#/definitions/AuthError'
+ *
+ *       403:
+ *         description: User is logged-in but has no permission to see the requested User.
+ *         schema:
+ *           $ref: '#/definitions/PermissionError'
+ *
+ *       404:
+ *         description: The requested User is not found in the DB.
+ *         schema:
+ *           $ref: '#/definitions/NoFoundError'
+ */
 router.get('/api/v1/users/:id',
     isLoggedIn(),
     async (ctx) => {
@@ -134,6 +232,67 @@ router.get('/api/v1/users/:id',
     }
 );
 
+/**
+ * @swagger
+ * /api/v1/users/{id}:
+ *   put:
+ *     description: Updating User that has the requested `id` and then we'll return his updated info.
+ *
+ *     produces:
+ *       - application/json
+ *
+ *     parameters:
+ *       - name: Authorization
+ *         in: header
+ *         description: Authorization header with JWT
+ *         required: true
+ *         type: string
+ *
+ *       - in: path
+ *         name: id
+ *         type: string
+ *         format: uuid
+ *         required: true
+ *         description: The `id` of the User we want to update
+ *
+ *       - in: body
+ *         name: update
+ *         type: object
+ *         description: Holds only the info that we want to update.
+ *           For example, if we want to update only the User firstName, then we'll send `{"firstName":"New first name"}`
+ *         example: {"firstName": "Johnny"}
+ *         parameters:
+ *           firstName:
+ *             type: string
+ *           lastName:
+ *             type: string
+ *           email:
+ *             type: string
+ *             format: email
+ *           password:
+ *             type: string
+ *
+ *     responses:
+ *       200:
+ *         description: The User object that has the requested `id`.
+ *         schema:
+ *           $ref: '#/definitions/User'
+ *
+ *       400:
+ *         description: Invalid URI `id` parameter or invalid request body.
+ *         schema:
+ *           $ref: '#/definitions/UserInputError'
+ *
+ *       401:
+ *         description: User is not logged-in.
+ *         schema:
+ *           $ref: '#/definitions/AuthError'
+ *
+ *       403:
+ *         description: User is logged-in but has no permission to update the requested User.
+ *         schema:
+ *           $ref: '#/definitions/PermissionError'
+ */
 router.put('/api/v1/users/:id',
     isLoggedIn(),
     async (ctx) => {
@@ -282,7 +441,54 @@ router.put('/api/v1/users/:id',
     }
 );
 
-router.get('/api/v1/users/:id/groups',
+/**
+ * @swagger
+ * /api/v1/users/{id}/invitations:
+ *   get:
+ *     description: Returns a list of all Invitations that User with the requested `id` have.
+ *       This list will include Invitations that the user is accepted, kicked, or pending to accept.
+ *
+ *     produces:
+ *       - application/json
+ *
+ *     parameters:
+ *       - name: Authorization
+ *         in: header
+ *         description: Authorization header with JWT
+ *         required: true
+ *         type: string
+ *
+ *       - in: path
+ *         name: id
+ *         type: string
+ *         format: uuid
+ *         required: true
+ *         description: The `id` of the User we want to see all Invitations
+ *
+ *     responses:
+ *       200:
+ *         description: List of all Invitations for User that has the requested `id`.
+ *         schema:
+ *           type: array
+ *           items:
+ *             $ref: '#/definitions/Invitation'
+ *
+ *       400:
+ *         description: Invalid URI `id` parameter.
+ *         schema:
+ *           $ref: '#/definitions/UserInputError'
+ *
+ *       401:
+ *         description: User is not logged-in.
+ *         schema:
+ *           $ref: '#/definitions/AuthError'
+ *
+ *       403:
+ *         description: User is logged-in but has no permission to see the Invitations
+ *         schema:
+ *           $ref: '#/definitions/PermissionError'
+ */
+router.get('/api/v1/users/:id/invitations',
     isLoggedIn(),
     async (ctx) => {
       const userId = ctx.params.id;
@@ -299,7 +505,7 @@ router.get('/api/v1/users/:id/groups',
         throw new HttpError(
             403,
             'NO_PERMISSION',
-            'You must cannot get a list of groups for someone else'
+            'You must cannot get a list of group invitations for someone else'
         );
       }
 
@@ -307,7 +513,7 @@ router.get('/api/v1/users/:id/groups',
         throw new HttpError(
             403,
             'NO_PERMISSION',
-            'You must have permission "canReadJoinedGroups" in order to get a list of your groups'
+            'You must have permission "canReadJoinedGroups" in order to get a list of your group invitations'
         );
       }
 

@@ -1,6 +1,28 @@
 const uuid = require('uuid/v4');
 
 /**
+ * @swagger
+ * definition:
+ *   UserInputError:
+ *     description:
+ *       HTTP status code 400.
+ *       User sent invalid data like URI id.
+ *
+ *     properties:
+ *       errorId:
+ *         type: string
+ *         format: uuid
+ *
+ *       errorCode:
+ *         type: string
+ *         example: INVALID_INPUT_EMAIL
+ *
+ *       errorMessage:
+ *         type: string
+ *         example: test@test. is invalid email
+ */
+
+/**
  * Extends over the global `Error`.
  * This class is used to create errors that have more code related info for easy tracking and
  * have Human readable error reason for direct use in FrontEnd.

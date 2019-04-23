@@ -1,6 +1,47 @@
 'use strict';
 
 module.exports = (sequelize, DataTypes) => {
+  /**
+   * @swagger
+   * definition:
+   *   User:
+   *     description:
+   *       The main entity that creates and executes actions.
+   *       Such actions can be creating a Group, inviting other User to a Group, login.
+   *
+   *     properties:
+   *       id:
+   *         type: string
+   *         format: uuid
+   *
+   *       firstName:
+   *         type: string
+   *         example: John
+   *
+   *       lastName:
+   *         type: string
+   *         example: Smith
+   *
+   *       email:
+   *         type: string
+   *         format: email
+   *         example: john@smith.com
+   *
+   *       hashedPassword:
+   *         type: string
+   *
+   *       createdAt:
+   *         type: string
+   *         format: date-time
+   *
+   *       updatedAt:
+   *         type: string
+   *         format: date-time
+   *
+   *       deletedAt:
+   *         type: string
+   *         format: date-time
+   */
   const Users = sequelize.define('Users', {
     id: {
       allowNull: false,
