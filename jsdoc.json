@@ -1,7 +1,7 @@
 {
   "source": {
     "include": ["./"],
-    "exclude": ["./node_modules"],
+    "exclude": ["./node_modules", "./swagger-ui-dist"],
     "includePattern": ".+\\.js(doc|x)?$",
     "excludePattern": ".+\\spec.js$"
   },
@@ -11,7 +11,7 @@
     "template": "./node_modules/better-docs"
   },
   "tags": {
-    "allowUnknownTags": ["category"]
+    "allowUnknownTags": ["category", "swagger"]
   },
   "plugins": [
     "node_modules/better-docs/category"

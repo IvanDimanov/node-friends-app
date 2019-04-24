@@ -13,36 +13,47 @@ const {applyAllRoutes} = require('./koa-middleware/applyAllRoutes');
 
 const postgres = require('../database/models');
 
-const app = new Koa();
-
 const port = process.env.PORT || 8000;
 
-app.context.postgres = postgres;
+/**
+ * Creates the main Koa app with all middlewares, APIs, logging, and error handling.
+ *
+ * @category BackEnd
+ *
+ * @return {Object} Instance of Koa
+ */
+function createApp() {
+  const app = new Koa();
 
-app
-    .use(helmet())
-    .use(catchError())
-    .use(logger)
-    .use(bodyParser())
-    .use(jwt({secret: process.env.JWT_SECRET || 'Pass@123', key: 'jwtdata', passthrough: true}))
-    .use(jwtToUser);
+  app.context.postgres = postgres;
 
-if (process.env.ALLOW_CORS) {
-  app.use(cors());
+  app
+      .use(helmet())
+      .use(catchError())
+      .use(logger)
+      .use(bodyParser())
+      .use(jwt({secret: process.env.JWT_SECRET || 'Pass@123', key: 'jwtdata', passthrough: true}))
+      .use(jwtToUser);
+
+  if (process.env.ALLOW_CORS) {
+    app.use(cors());
+  }
+
+  applyAllRoutes(app);
+
+  app
+      .use(notFound)
+      .on('error', onError);
+
+  return app;
 }
-
-applyAllRoutes(app);
-
-app
-    .use(notFound)
-    .on('error', onError);
 
 /* Check if this file is called for starting the app or called as additional module to already started app */
 /* istanbul ignore next: because this involves loading file via `require` or executing the file directly from the terminal */
 if (process.env.NODE_ENV === 'test') {
-  module.exports = app;
+  module.exports = createApp;
 } else {
-  const server = app.listen(port, () => {
+  const server = createApp().listen(port, () => {
     process.stdout.write(`Server listening on ${JSON.stringify(server.address())}\n`);
   });
 }

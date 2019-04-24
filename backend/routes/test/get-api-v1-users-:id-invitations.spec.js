@@ -5,7 +5,7 @@ const HttpError = require('../../koa-middleware/HttpError');
 const usersRouter = require('../users');
 
 const apiMethod = 'GET';
-const apiPath = '/api/v1/users/:id/groups';
+const apiPath = '/api/v1/users/:id/invitations';
 
 describe(apiPath, () => {
   let layer;
@@ -170,7 +170,7 @@ describe(apiPath, () => {
     expect(thrownError.code).to.equal('INVALID_INPUT_ID');
   });
 
-  it('should throw when user wants to get a list of groups for other user', async () => {
+  it('should throw when user wants to get a list of group invitations for other user', async () => {
     let thrownError;
     ctx.params = {
       id: '22678093-1ad2-467b-9de0-a86d45a433ff',
@@ -187,7 +187,7 @@ describe(apiPath, () => {
     expect(thrownError.code).to.equal('NO_PERMISSION');
   });
 
-  it('should throw when user wants to get a list his groups but has no permission for it', async () => {
+  it('should throw when user wants to get a list his group invitations but has no permission for it', async () => {
     let thrownError;
     ctx.state.userPermissions = [];
 
@@ -202,7 +202,7 @@ describe(apiPath, () => {
     expect(thrownError.code).to.equal('NO_PERMISSION');
   });
 
-  it('should return list of groups when user has permission for it', async () => {
+  it('should return list of group invitations when user has permission for it', async () => {
     ctx.state.userPermissions = ['canReadJoinedGroups'];
 
     await koaRouterRunner(layer.stack, ctx);
@@ -211,7 +211,7 @@ describe(apiPath, () => {
     expect(JSON.stringify( ctx.body )).to.equal(JSON.stringify( invitations.map((invitation) => invitation.toJSON()) ));
   });
 
-  it('should return empty list of groups when user has permission for it but there is nothing in the DB', async () => {
+  it('should return empty list of group invitations when user has permission for it but there is nothing in the DB', async () => {
     InvitationsFindAll = sinon.stub().returns(Promise.resolve());
     ctx.postgres.Invitations.findAll = InvitationsFindAll;
     ctx.state.userPermissions = ['canReadJoinedGroups'];
