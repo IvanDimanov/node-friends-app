@@ -23,7 +23,6 @@
     "prebuild": "rimraf ./dist && mkdirp ./dist && npm run lint && npm run test-coverage && npm run generate-documentation && npm run generate-swagger",
     "build": "npm run build-database && marked --input=./Readme.md --output=./dist/readme.html",
     "now-build": "npm run build && node ./utils/fixCoveragePaths",
-    "deploy": "now --target production",
     "local-development": "nodemon ./backend",
     "local-swagger": "mkdirp ./dist && npm run generate-swagger && http-server ./dist/swagger",
     "prepush": "npm run lint"
