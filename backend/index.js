@@ -12,8 +12,6 @@ const notFound = require('./koa-middleware/notFound');
 const onError = require('./koa-middleware/onError');
 const {applyAllRoutes} = require('./koa-middleware/applyAllRoutes');
 
-const postgres = require('../database/models');
-
 const port = process.env.PORT || 8000;
 
 const server = http.createServer((req, res) => {
