@@ -12,6 +12,11 @@ const port = process.env.PORT || 8000;
 
 const server = http.createServer((req, res) => {
   res.statusCode = 200;
+
+  process.stdout.write(`Request on ${Date.now}\n`);
+  console.log(`console: Request on ${Date.now}`);
+
+
   res.setHeader('Content-Type', 'text/plain');
   res.end(`Hello World 11 ${Date.now()}\n`);
 });
@@ -21,7 +26,7 @@ server.listen(port, () => {
   process.stdout.write(`Server running at ${port}\n`);
   process.stdout.write(`Server running at ${port}\n`);
 
-  console.log(`Server running at ${port}\n`);
-  console.log(`Server running at ${port}\n`);
-  console.log(`Server running at ${port}\n`);
+  console.log(`console: Server running at ${port}`);
+  console.log(`console: Server running at ${port}`);
+  console.log(`console: Server running at ${port}`);
 });
