@@ -1,10 +1,12 @@
 {
   "version": 2,
   "alias": "node-friends-app.now.sh",
+
   "builds": [
     { "src": "./backend/index.js", "use": "@now/node-server" },
     { "src": "./package.json", "use": "@now/static-build" }
   ],
+
   "build": {
     "env": {
       "JWT_SECRET": "@node_friends_app_prod_jwt_secret",
@@ -12,13 +14,14 @@
       "SWAGGER_HOST": "@node_friends_app_prod_swagger_host"
     }
   },
+
   "routes": [
     { "src": "/api/(.*)", "dest": "/backend/index.js" },
 
-    { "src": "/_/test-coverage", "dest": "/coverage/index.html" },
+    { "src": "/_/test-coverage", "status": 301, "headers": { "Location": "/_/test-coverage/index.html" } },
     { "src": "/_/test-coverage/(.*)", "dest": "/coverage/$1" },
 
-    { "src": "/_/documentation", "dest": "/documentation/index.html" },
+    { "src": "/_/documentation", "status": 301, "headers": { "Location": "/_/documentation/index.html" } },
     { "src": "/_/documentation/(.*)", "dest": "/documentation/$1" },
 
     { "src": "/(.*)", "dest": "/readme.html" }
