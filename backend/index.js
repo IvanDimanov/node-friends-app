@@ -25,7 +25,7 @@ const port = process.env.PORT || 8000;
 function createApp() {
   const app = new Koa();
 
-  // app.context.postgres = getDbModels();
+  app.context.postgres = getDbModels();
 
   app
       .use(helmet())
