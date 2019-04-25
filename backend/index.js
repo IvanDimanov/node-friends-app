@@ -1,6 +1,27 @@
 const http = require('http');
+const Koa = require('koa');
+const bodyParser = require('koa-bodyparser');
+const helmet = require('koa-helmet');
+const jwt = require('koa-jwt');
+const cors = require('@koa/cors');
 
-const port = 3000;
+const catchError = require('./koa-middleware/catchError');
+const logger = require('./koa-middleware/logger');
+const jwtToUser = require('./koa-middleware/jwtToUser');
+const notFound = require('./koa-middleware/notFound');
+const onError = require('./koa-middleware/onError');
+const {applyAllRoutes} = require('./koa-middleware/applyAllRoutes');
+
+const postgres = require('../database/models');
+
+const port = process.env.PORT || 8000;
+
+process.stdout.write('\n');
+console.log('\n');
+process.stdout.write(`port = ${port}\n`);
+console.log(`port = ${port}\n`);
+process.stdout.write(`process.env.PORT = ${process.env.PORT}\n`);
+console.log(`process.env.PORT = ${process.env.PORT}\n`);
 
 const server = http.createServer((req, res) => {
   res.statusCode = 200;
@@ -10,4 +31,5 @@ const server = http.createServer((req, res) => {
 
 server.listen(port, () => {
   process.stdout.write(`Server running at ${port}\n`);
+  console.log(`Server running at ${port}\n`);
 });

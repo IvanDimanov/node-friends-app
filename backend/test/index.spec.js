@@ -1,4 +1,4 @@
-const createApp = require('../index.api');
+const createApp = require('../index');
 
 describe('Main server', () => {
   it('should be an {object}', () => {
