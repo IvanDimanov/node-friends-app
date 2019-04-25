@@ -2,7 +2,6 @@
 Production ready Node API with Docs and Tests
 
 ## [Live Demo](https://node-friends-app.now.sh)
-## [![App](https://raw.githubusercontent.com/IvanDimanov/node-friends-app/master/image.png)](https://node-friends-app.now.sh)
 
 ## If you run ...
 ```
@@ -13,6 +12,6 @@ npm run local-development
 ```
 
 ## ... you will get
-- production Webpack config with dynamic chunks - `npm run build`
-- local development server with webpack-serve - http://localhost:8080
-- React app with routing and Material UI - https://material-ui.com
+- production Koa app with extensive routes, covered by Swagger - https://node-friends-app.now.sh/_/swagger
+- 100% unit tested code - https://node-friends-app.now.sh/_/documentation
+- linting, JSDocs - https://node-friends-app.now.sh/_/documentation
