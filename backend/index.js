@@ -13,8 +13,8 @@ const port = process.env.PORT || 8000;
 const server = http.createServer((req, res) => {
   res.statusCode = 200;
 
-  process.stdout.write(`Request on ${Date.now}\n`);
-  console.log(`console: Request on ${Date.now}`);
+  process.stdout.write(`Request on ${Date.now()}\n`);
+  console.log(`console: Request on ${Date.now()}`);
 
 
   res.setHeader('Content-Type', 'text/plain');
