@@ -15,10 +15,6 @@ const postgres = require('../database/models');
 
 const port = process.env.PORT || 8000;
 
-process.stdout.write('\n');
-process.stdout.write(`port = ${port}\n`);
-process.stdout.write(`process.env.PORT = ${process.env.PORT}\n`);
-
 /**
  * Creates the main Koa app with all middlewares, APIs, logging, and error handling.
  *
@@ -29,8 +25,6 @@ process.stdout.write(`process.env.PORT = ${process.env.PORT}\n`);
 function createApp() {
   const app = new Koa();
 
-  process.stdout.write(`postgres = ${postgres}\n`);
-
   app.context.postgres = postgres;
 
   app
@@ -40,8 +34,6 @@ function createApp() {
       .use(bodyParser())
       .use(jwt({secret: process.env.JWT_SECRET || 'Pass@123', key: 'jwtdata', passthrough: true}))
       .use(jwtToUser);
-
-  process.stdout.write(`process.env.ALLOW_CORS = ${process.env.ALLOW_CORS}\n`);
 
   if (process.env.ALLOW_CORS) {
     app.use(cors());
@@ -55,8 +47,6 @@ function createApp() {
 
   return app;
 }
-
-process.stdout.write(`process.env.NODE_ENV = ${process.env.NODE_ENV}\n`);
 
 /* Check if this file is called for starting the app or called as additional module to already started app */
 /* istanbul ignore next: because this involves loading file via `require` or executing the file directly from the terminal */

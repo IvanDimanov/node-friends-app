@@ -16,12 +16,31 @@ const postgres = require('../database/models');
 
 const port = process.env.PORT || 8000;
 
-process.stdout.write('\n');
-console.log('\n');
-process.stdout.write(`port = ${port}\n`);
-console.log(`port = ${port}\n`);
-process.stdout.write(`process.env.PORT = ${process.env.PORT}\n`);
-console.log(`process.env.PORT = ${process.env.PORT}\n`);
+
+
+const app = new Koa();
+
+app.context.postgres = postgres;
+
+app
+    .use(helmet())
+    .use(catchError())
+    .use(logger)
+    .use(bodyParser())
+    .use(jwt({secret: process.env.JWT_SECRET || 'Pass@123', key: 'jwtdata', passthrough: true}))
+    .use(jwtToUser);
+
+if (process.env.ALLOW_CORS) {
+  app.use(cors());
+}
+
+applyAllRoutes(app);
+
+app
+    .use(notFound)
+    .on('error', onError);
+
+
 
 const server = http.createServer((req, res) => {
   res.statusCode = 200;
@@ -31,5 +50,9 @@ const server = http.createServer((req, res) => {
 
 server.listen(port, () => {
   process.stdout.write(`Server running at ${port}\n`);
+  process.stdout.write(`Server running at ${port}\n`);
+  process.stdout.write(`Server running at ${port}\n`);
+  console.log(`Server running at ${port}\n`);
+  console.log(`Server running at ${port}\n`);
   console.log(`Server running at ${port}\n`);
 });
