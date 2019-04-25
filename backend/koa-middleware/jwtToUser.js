@@ -24,6 +24,14 @@ async function jwtToUser(ctx, next) {
     return next();
   }
 
+  ctx.state.user = {};
+  ctx.state.userPermissions = [];
+
+  return next();
+
+
+
+
   ctx.state.user = await ctx.postgres.Users
       .findOne({
         where: {
