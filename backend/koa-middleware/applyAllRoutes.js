@@ -1,9 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 
-const usersRoutes = require('../routes/users');
-const groupsRoutes = require('../routes/groups');
-
 const DEFAULT_ROUTES_FOLDER = '../routes';
 
 /**
@@ -15,17 +12,6 @@ const DEFAULT_ROUTES_FOLDER = '../routes';
  * @param {string} routesFolderPath Folder that host all BackEnd API routes
  */
 async function applyAllRoutes(app, routesFolderPath = DEFAULT_ROUTES_FOLDER) {
-  app
-      .use(usersRoutes.routes())
-      .use(usersRoutes.allowedMethods());
-
-  app
-      .use(groupsRoutes.routes())
-      .use(groupsRoutes.allowedMethods());
-
-  return;
-
-
   const basePath = path.join(__dirname, routesFolderPath);
   fs.readdirSync(basePath)
       .forEach((itemPath) => {
