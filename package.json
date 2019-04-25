@@ -25,7 +25,7 @@
     "now-build": "npm run build",
     "local-development": "ALLOW_CORS=true nodemon ./backend",
     "local-swagger": "mkdirp ./dist && npm run generate-swagger && http-server ./dist/swagger",
-    "prepush": "npm run lint"
+    "prepush_": "npm run lint"
   },
   "engines": {
     "node": ">=8"
