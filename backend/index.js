@@ -16,6 +16,39 @@ const getDbModels = require('../database/models');
 
 const port = process.env.PORT || 8000;
 
+/**
+ * Creates the main Koa app with all middlewares, APIs, logging, and error handling.
+ *
+ * @category BackEnd
+ *
+ * @return {Object} Instance of Koa
+ */
+function createApp() {
+  const app = new Koa();
+
+  app.context.postgres = getDbModels();
+
+  app
+      .use(helmet())
+      .use(catchError())
+      .use(logger)
+      .use(bodyParser())
+      .use(jwt({secret: process.env.JWT_SECRET || 'Pass@123', key: 'jwtdata', passthrough: true}))
+      .use(jwtToUser);
+
+  if (process.env.ALLOW_CORS) {
+    app.use(cors());
+  }
+
+  applyAllRoutes(app);
+
+  app
+      .use(notFound)
+      .on('error', onError);
+
+  return app;
+}
+
 const server = http.createServer((req, res) => {
   res.statusCode = 200;
 
