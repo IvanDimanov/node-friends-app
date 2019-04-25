@@ -13,5 +13,5 @@ npm run local-development
 
 ## ... you will get
 - production Koa app with extensive routes, covered by Swagger - https://node-friends-app.now.sh/_/swagger
-- 100% unit tested code - https://node-friends-app.now.sh/_/documentation
+- 100% unit tested code - https://node-friends-app.now.sh/_/test-coverage
 - linting, JSDocs - https://node-friends-app.now.sh/_/documentation
