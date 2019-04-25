@@ -19,7 +19,7 @@
     { "src": "/api/(.*)", "dest": "/backend/index.js" },
 
     { "src": "/_/test-coverage", "status": 301, "headers": { "Location": "/_/test-coverage/index.html" } },
-    { "src": "/_/test-coverage/(.*)", "dest": "/coverage/$1" },
+    { "src": "/_/test-coverage/(.*)", "dest": "/test-coverage/$1" },
 
     { "src": "/_/documentation", "status": 301, "headers": { "Location": "/_/documentation/index.html" } },
     { "src": "/_/documentation/(.*)", "dest": "/documentation/$1" },

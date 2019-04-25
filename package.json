@@ -15,7 +15,7 @@
     "lint": "eslint .",
     "test": "NODE_ENV=test mocha",
     "watch-test": "NODE_ENV=test mocha --watch",
-    "test-coverage": "NODE_ENV=test istanbul cover --report=html --report=text --dir=./dist/coverage _mocha",
+    "test-coverage": "NODE_ENV=test istanbul cover --report=html --report=text --dir=./dist/test-coverage _mocha",
     "generate-documentation": "jsdoc --configure jsdoc.json",
     "generate-swagger": "swagger-jsdoc --definition ./swaggerDef.js --output ./swagger-ui-dist/swagger.spec.json && node ./utils/createSwaggerIndex && copyfiles --up 1 ./swagger-ui-dist/* ./dist/swagger",
     "seed-database": "cd ./database && npx sequelize db:seed:all && cd ../",
