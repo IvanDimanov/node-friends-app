@@ -14,7 +14,7 @@ const groupsRouter = require('../routes/groups');
  * @param {object} app Instance of `new Koa()`
  * @param {string} routesFolderPath Folder that host all BackEnd API routes
  */
-async function applyAllRoutes2(app, routesFolderPath = DEFAULT_ROUTES_FOLDER) {
+async function applyAllRoutes(app, routesFolderPath = DEFAULT_ROUTES_FOLDER) {
   const basePath = path.join(__dirname, routesFolderPath);
 
   process.stdout.write(`basePath = ${basePath}\n`);
