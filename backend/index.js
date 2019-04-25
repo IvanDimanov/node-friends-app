@@ -1,4 +1,3 @@
-const http = require('http');
 const Koa = require('koa');
 const bodyParser = require('koa-bodyparser');
 const helmet = require('koa-helmet');
@@ -26,7 +25,7 @@ const port = process.env.PORT || 8000;
 function createApp() {
   const app = new Koa();
 
-  app.context.postgres = getDbModels();
+  // app.context.postgres = getDbModels();
 
   app
       .use(helmet())
@@ -49,23 +48,12 @@ function createApp() {
   return app;
 }
 
-const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-
-  process.stdout.write(`Request on ${Date.now()}\n`);
-  console.log(`console: Request on ${Date.now()}`);
-
-
-  res.setHeader('Content-Type', 'text/plain');
-  res.end(`Time ${new Date().toISOString()}\n`);
-});
-
-server.listen(port, () => {
-  process.stdout.write(`Server running at ${port}\n`);
-  process.stdout.write(`Server running at ${port}\n`);
-  process.stdout.write(`Server running at ${port}\n`);
-
-  console.log(`console: Server running at ${port}`);
-  console.log(`console: Server running at ${port}`);
-  console.log(`console: Server running at ${port}`);
-});
+/* Check if this file is called for starting the app or called as additional module to already started app */
+/* istanbul ignore next: because this involves loading file via `require` or executing the file directly from the terminal */
+if (process.env.NODE_ENV === 'test') {
+  module.exports = createApp;
+} else {
+  const server = createApp().listen(port, () => {
+    process.stdout.write(`Server listening on ${JSON.stringify(server.address())}\n`);
+  });
+}
