@@ -11,7 +11,7 @@ const notFound = require('./koa-middleware/notFound');
 const onError = require('./koa-middleware/onError');
 const {applyAllRoutes} = require('./koa-middleware/applyAllRoutes');
 
-const getDbModels = require('../database/models');
+const postgres = require('../database/models');
 
 const port = process.env.PORT || 8000;
 
@@ -25,7 +25,7 @@ const port = process.env.PORT || 8000;
 function createApp() {
   const app = new Koa();
 
-  app.context.postgres = getDbModels();
+  app.context.postgres = postgres;
 
   app
       .use(helmet())
