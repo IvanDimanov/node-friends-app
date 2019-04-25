@@ -52,6 +52,7 @@ server.listen(port, () => {
   process.stdout.write(`Server running at ${port}\n`);
   process.stdout.write(`Server running at ${port}\n`);
   process.stdout.write(`Server running at ${port}\n`);
+
   console.log(`Server running at ${port}\n`);
   console.log(`Server running at ${port}\n`);
   console.log(`Server running at ${port}\n`);
