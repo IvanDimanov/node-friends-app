@@ -1,7 +1,8 @@
 const Sequelize = require('sequelize');
 const uuid = require('uuid/v4');
 
-const config = require('../config/config');
+const {getConfig} = require('../config/config');
+const config = getConfig();
 
 Sequelize.formatLogging = (sql) => sql.replace(/[\r\n\t]+/g, ' ').replace(/\s+/g, ' ');
 
