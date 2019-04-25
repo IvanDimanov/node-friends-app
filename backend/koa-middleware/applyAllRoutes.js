@@ -6,6 +6,15 @@ const DEFAULT_ROUTES_FOLDER = '../routes';
 const usersRouter = require('../routes/users');
 const groupsRouter = require('../routes/groups');
 
+const basePath = path.join(__dirname, DEFAULT_ROUTES_FOLDER);
+const routers = fs.readdirSync(basePath)
+    .filter((itemPath) => {
+      /* Ignore test files and folders */
+      return itemPath !== 'test' && !itemPath.includes('.spec.');
+    })
+    .map((itemPath) => require(path.join(basePath, itemPath)));
+
+
 /**
  * Loads all JS modules from the `routesFolderPath` and applies them to the koa `app`
  *
@@ -17,12 +26,17 @@ const groupsRouter = require('../routes/groups');
 async function applyAllRoutes(app, routesFolderPath = DEFAULT_ROUTES_FOLDER) {
   const basePath = path.join(__dirname, routesFolderPath);
 
-  process.stdout.write(`basePath = ${basePath}\n`);
+  if (routesFolderPath === DEFAULT_ROUTES_FOLDER) {
+    routers.forEach((router) => {
+      app
+          .use(router.routes())
+          .use(router.allowedMethods());
+    });
+    return;
+  }
 
   fs.readdirSync(basePath)
       .forEach((itemPath) => {
-        process.stdout.write(`itemPath = ${itemPath}\n`);
-
         /* Ignore test files and folders */
         if (itemPath === 'test' || itemPath.includes('.spec.')) {
           return;
