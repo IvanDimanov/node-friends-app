@@ -8,6 +8,8 @@ const cors = require('@koa/cors');
 const catchError = require('./koa-middleware/catchError');
 const logger = require('./koa-middleware/logger');
 
+const port = process.env.PORT || 8000;
+
 const server = http.createServer((req, res) => {
   res.statusCode = 200;
 
