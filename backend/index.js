@@ -8,6 +8,8 @@ const cors = require('@koa/cors');
 const catchError = require('./koa-middleware/catchError');
 const logger = require('./koa-middleware/logger');
 
+const delay = require('../utils/delay');
+
 const port = process.env.PORT || 8000;
 
 const server = http.createServer(async (req, res) => {
@@ -16,6 +18,7 @@ const server = http.createServer(async (req, res) => {
   process.stdout.write(`Request on ${Date.now()}\n`);
   console.log(`console: Request on ${Date.now()}`);
 
+  await delay(2000);
 
   res.setHeader('Content-Type', 'text/plain');
   res.end(`Time ${new Date().toISOString()}\n`);
