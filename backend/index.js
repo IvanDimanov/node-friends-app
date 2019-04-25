@@ -22,8 +22,8 @@ const app = new Koa();
 
 // app.context.postgres = postgres;
 
-app
-    .use(helmet())
+// app
+//     .use(helmet())
     // .use(catchError())
     // .use(logger)
     // .use(bodyParser())
@@ -36,9 +36,9 @@ app
 
 // applyAllRoutes(app);
 
-app
-    .use(notFound)
-    .on('error', onError);
+// app
+//     .use(notFound)
+//     .on('error', onError);
 
 
 
