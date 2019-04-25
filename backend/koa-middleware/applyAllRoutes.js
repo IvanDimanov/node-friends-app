@@ -6,16 +6,6 @@ const DEFAULT_ROUTES_FOLDER = '../routes';
 const usersRouter = require('../routes/users');
 const groupsRouter = require('../routes/groups');
 
-async function applyAllRoutes(app) {
-  app
-    .use(usersRouter.routes())
-    .use(usersRouter.allowedMethods());
-
-  app
-    .use(groupsRouter.routes())
-    .use(groupsRouter.allowedMethods());
-}
-
 /**
  * Loads all JS modules from the `routesFolderPath` and applies them to the koa `app`
  *
