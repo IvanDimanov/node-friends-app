@@ -21,8 +21,8 @@
     "seed-database": "cd ./database && npx sequelize db:seed:all && cd ../",
     "build-database": "cd ./database && npx sequelize db:migrate && cd ../",
     "prebuild_": "rimraf ./dist && mkdirp ./dist && npm run lint && npm run test-coverage && npm run generate-documentation && npm run generate-swagger",
-    "build": "npm run build-database && marked --input=./Readme.md --output=./dist/readme.html",
-    "now-build": "npm run build",
+    "build_": "npm run build-database && marked --input=./Readme.md --output=./dist/readme.html",
+    "now-build_": "npm run build",
     "local-development": "nodemon ./backend",
     "local-swagger": "mkdirp ./dist && npm run generate-swagger && http-server ./dist/swagger",
     "prepush_": "npm run lint"
