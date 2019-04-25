@@ -52,6 +52,17 @@ describe(apiPath, () => {
     };
   });
 
+  let ORIGINAL_JWT_SECRET;
+
+  beforeEach(() => {
+    ORIGINAL_JWT_SECRET = process.env.JWT_SECRET;
+  });
+
+  afterEach(() => {
+    process.env.JWT_SECRET = ORIGINAL_JWT_SECRET;
+  });
+
+
   it('should be in usersRouter', () => {
     expect(layer).to.be.an('object');
   });
@@ -242,6 +253,26 @@ describe(apiPath, () => {
   });
 
   it('should return JSON with `JWT` when email and password match in the DB', async () => {
+    await koaRouterRunner(layer.stack, ctx);
+
+    expect(ctx.body).to.be.an('object');
+    expect(ctx.body.JWT).to.be.a('string');
+    expect(ctx.body.JWT).to.include('Bearer ');
+  });
+
+  it('should return JSON with `JWT` when email and password match in the DB, and JWT_SECRET is set', async () => {
+    process.env.JWT_SECRET = 'test';
+
+    await koaRouterRunner(layer.stack, ctx);
+
+    expect(ctx.body).to.be.an('object');
+    expect(ctx.body.JWT).to.be.a('string');
+    expect(ctx.body.JWT).to.include('Bearer ');
+  });
+
+  it('should return JSON with `JWT` when email and password match in the DB, and JWT_SECRET is not set', async () => {
+    process.env.JWT_SECRET = '';
+
     await koaRouterRunner(layer.stack, ctx);
 
     expect(ctx.body).to.be.an('object');
