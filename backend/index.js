@@ -8,6 +8,8 @@ const cors = require('@koa/cors');
 const catchError = require('./koa-middleware/catchError');
 const logger = require('./koa-middleware/logger');
 const jwtToUser = require('./koa-middleware/jwtToUser');
+const notFound = require('./koa-middleware/notFound');
+const onError = require('./koa-middleware/onError');
 
 const port = process.env.PORT || 8000;
 
