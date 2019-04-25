@@ -19,7 +19,7 @@ const server = http.createServer((req, res) => {
 
 
   res.setHeader('Content-Type', 'text/plain');
-  res.end(`Hello World 7 ${Date.now()}\n`);
+  res.end(`Time ${new Date().toISOString()}\n`);
 });
 
 server.listen(port, () => {
