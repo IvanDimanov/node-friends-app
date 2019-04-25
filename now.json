@@ -3,7 +3,7 @@
   "alias": "node-friends-app.now.sh",
 
   "builds": [
-    { "src": "./backend/index.js", "use": "@now/node-server", "config": { "bundle": false } },
+    { "src": "./backend/index.js", "use": "@now/node-server", "config": { "bundle": false, "maxLambdaSize": "40mb" } },
     { "src": "./package.json", "use": "@now/static-build" }
   ],
 
