@@ -5,27 +5,32 @@ const path = require('path');
 const Sequelize = require('sequelize');
 const config = require('../config/config');
 const basename = path.basename(__filename);
-const db = {};
 
-const sequelize = new Sequelize(config.url, {dialect: 'postgres'});
+function getDbModels() {
+  const db = {};
 
-fs
-    .readdirSync(__dirname)
-    .filter((file) => {
-      return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
-    })
-    .forEach((file) => {
-      const model = sequelize.import(path.join(__dirname, file));
-      db[model.name] = model;
-    });
+  const sequelize = new Sequelize(config.url, {dialect: 'postgres'});
 
-Object.keys(db).forEach((modelName) => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
-  }
-});
+  fs
+      .readdirSync(__dirname)
+      .filter((file) => {
+        return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
+      })
+      .forEach((file) => {
+        const model = sequelize.import(path.join(__dirname, file));
+        db[model.name] = model;
+      });
 
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
+  Object.keys(db).forEach((modelName) => {
+    if (db[modelName].associate) {
+      db[modelName].associate(db);
+    }
+  });
 
-module.exports = db;
+  db.sequelize = sequelize;
+  db.Sequelize = Sequelize;
+
+  return db;
+}
+
+module.exports = getDbModels;
