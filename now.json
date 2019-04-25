@@ -4,7 +4,7 @@
 
   "builds": [
     { "src": "./backend/index.js", "use": "@now/node-server" },
-    { "src": "./package.json", "use": "@now/static-build" }
+    // { "src": "./package.json", "use": "@now/static-build" }
   ],
 
   "build": {
@@ -18,15 +18,15 @@
   "routes": [
     { "src": "/api/(.*)", "dest": "/backend/index.js" },
 
-    { "src": "/_/test-coverage", "status": 301, "headers": { "Location": "/_/test-coverage/index.html" } },
-    { "src": "/_/test-coverage/(.*)", "dest": "/test-coverage/$1" },
+    // { "src": "/_/test-coverage", "status": 301, "headers": { "Location": "/_/test-coverage/index.html" } },
+    // { "src": "/_/test-coverage/(.*)", "dest": "/test-coverage/$1" },
 
-    { "src": "/_/documentation", "status": 301, "headers": { "Location": "/_/documentation/index.html" } },
-    { "src": "/_/documentation/(.*)", "dest": "/documentation/$1" },
+    // { "src": "/_/documentation", "status": 301, "headers": { "Location": "/_/documentation/index.html" } },
+    // { "src": "/_/documentation/(.*)", "dest": "/documentation/$1" },
 
-    { "src": "/_/swagger", "status": 301, "headers": { "Location": "/_/swagger/index.html" } },
-    { "src": "/_/swagger/(.*)", "dest": "/swagger/$1" },
+    // { "src": "/_/swagger", "status": 301, "headers": { "Location": "/_/swagger/index.html" } },
+    // { "src": "/_/swagger/(.*)", "dest": "/swagger/$1" },
 
-    { "src": "/(.*)", "dest": "/readme.html" }
+    // { "src": "/(.*)", "dest": "/readme.html" }
   ]
 }
