@@ -7,14 +7,6 @@
     { "src": "./package.json", "use": "@now/static-build" }
   ],
 
-  "build": {
-    "env": {
-      "JWT_SECRET": "@node_friends_app_prod_jwt_secret",
-      "DB_POSTGRESQL_URL": "@node_friends_app_prod_db_postgresql_url",
-      "SWAGGER_HOST": "@node_friends_app_prod_swagger_host"
-    }
-  },
-
   "env": {
     "JWT_SECRET": "@node_friends_app_prod_jwt_secret",
     "DB_POSTGRESQL_URL": "@node_friends_app_prod_db_postgresql_url",
