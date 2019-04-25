@@ -10,7 +10,6 @@ const logger = require('./koa-middleware/logger');
 const jwtToUser = require('./koa-middleware/jwtToUser');
 const notFound = require('./koa-middleware/notFound');
 const onError = require('./koa-middleware/onError');
-const {applyAllRoutes} = require('./koa-middleware/applyAllRoutes');
 
 const port = process.env.PORT || 8000;
 
