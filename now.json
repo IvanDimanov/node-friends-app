@@ -24,6 +24,9 @@
     { "src": "/_/documentation", "status": 301, "headers": { "Location": "/_/documentation/index.html" } },
     { "src": "/_/documentation/(.*)", "dest": "/documentation/$1" },
 
+    { "src": "/_/swagger", "status": 301, "headers": { "Location": "/_/swagger/index.html" } },
+    { "src": "/_/swagger/(.*)", "dest": "/swagger/$1" },
+
     { "src": "/(.*)", "dest": "/readme.html" }
   ]
 }
