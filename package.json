@@ -20,7 +20,7 @@
     "generate-swagger": "swagger-jsdoc --definition ./swaggerDef.js --output ./swagger-ui-dist/swagger.spec.json && node ./utils/createSwaggerIndex && copyfiles --up 1 ./swagger-ui-dist/* ./dist/swagger",
     "seed-database": "cd ./database && npx sequelize db:seed:all && cd ../",
     "build-database": "cd ./database && npx sequelize db:migrate && cd ../",
-    "prebuild": "rimraf ./dist && mkdirp ./dist && npm run lint && npm run test-coverage && npm run generate-documentation && npm run generate-swagger",
+    "prebuild": "rimraf ./dist && mkdirp ./dist && npm run generate-documentation && npm run generate-swagger",
     "build": "npm run build-database && marked --input=./Readme.md --output=./dist/readme.html",
     "now-build": "npm run build",
     "local-development": "ALLOW_CORS=true nodemon ./backend",
