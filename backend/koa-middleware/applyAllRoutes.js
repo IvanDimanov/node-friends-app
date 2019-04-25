@@ -13,8 +13,13 @@ const DEFAULT_ROUTES_FOLDER = '../routes';
  */
 async function applyAllRoutes(app, routesFolderPath = DEFAULT_ROUTES_FOLDER) {
   const basePath = path.join(__dirname, routesFolderPath);
+
+  process.stdout.write(`basePath = ${basePath}\n`);
+
   fs.readdirSync(basePath)
       .forEach((itemPath) => {
+        process.stdout.write(`itemPath = ${itemPath}\n`);
+
         /* Ignore test files and folders */
         if (itemPath === 'test' || itemPath.includes('.spec.')) {
           return;
