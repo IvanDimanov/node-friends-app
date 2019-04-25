@@ -27,12 +27,6 @@ function createApp() {
 
   app.context.postgres = postgres;
 
-  setInterval(() => {
-    console.log(' ')
-    console.log( process.env )
-    console.log(' ')
-  }, 10 * 1000)
-
   app
       .use(helmet())
       .use(catchError())

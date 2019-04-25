@@ -35,6 +35,10 @@ function onError(error, ctx) {
   const errorId = error.id || uuid();
   ctx.logger.error(error.stack, {errorId});
 
+  console.log(' ')
+  console.log( process.env )
+  console.log(' ')
+
   ctx.status = error.status || 500;
   ctx.body = {
     errorId,
