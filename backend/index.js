@@ -12,7 +12,7 @@ const notFound = require('./koa-middleware/notFound');
 const onError = require('./koa-middleware/onError');
 const {applyAllRoutes} = require('./koa-middleware/applyAllRoutes');
 
-const postgres = require('../database/models');
+// const postgres = require('../database/models');
 
 const port = process.env.PORT || 8000;
 
@@ -20,21 +20,21 @@ const port = process.env.PORT || 8000;
 
 const app = new Koa();
 
-app.context.postgres = postgres;
+// app.context.postgres = postgres;
 
 app
     .use(helmet())
-    .use(catchError())
-    .use(logger)
-    .use(bodyParser())
-    .use(jwt({secret: process.env.JWT_SECRET || 'Pass@123', key: 'jwtdata', passthrough: true}))
-    .use(jwtToUser);
+    // .use(catchError())
+    // .use(logger)
+    // .use(bodyParser())
+    // .use(jwt({secret: process.env.JWT_SECRET || 'Pass@123', key: 'jwtdata', passthrough: true}))
+    // .use(jwtToUser);
 
-if (process.env.ALLOW_CORS) {
-  app.use(cors());
-}
+// if (process.env.ALLOW_CORS) {
+//   app.use(cors());
+// }
 
-applyAllRoutes(app);
+// applyAllRoutes(app);
 
 app
     .use(notFound)
