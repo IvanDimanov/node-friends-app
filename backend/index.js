@@ -10,7 +10,7 @@ const logger = require('./koa-middleware/logger');
 
 const port = process.env.PORT || 8000;
 
-const server = http.createServer((req, res) => {
+const server = http.createServer(async (req, res) => {
   res.statusCode = 200;
 
   process.stdout.write(`Request on ${Date.now()}\n`);
